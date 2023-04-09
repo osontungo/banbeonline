@@ -31,7 +31,7 @@ export const environment = {
     logoAssetDir: "/assets/diamond/",
   },
   megaswapURL: "https://megaswap.xyz",
-  megaswapAPI: "https://megaswap.xyz/#/iframe/v1",
+  megaswapAPI: "https://megaswap.dev",
   megaswapAffiliateAddress: "BC1YLgTKfwSeHuNWtuqQmwduJM2QZ7ZQ9C7HFuLpyXuunUN7zTEr5WL",
   openfundURL: "https://openfund.com",
   setuAPI: "https://web3setu.co.in",
