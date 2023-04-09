@@ -12,7 +12,7 @@ import { environment } from "src/environments/environment";
 })
 export class BuyDeSoMegaSwapComponent implements OnInit {
   @Input() depositTicker: Ticker;
-  iframeURL: SafeResourceUrl = "";
+  iframeURL: SafeResourceUrl = "https://megaswap.xyz/#/iframe/v1?affiliateAddress=BC1YLgk64us61PUyJ7iTEkV4y2GqpHSi8ejWJRnZwsX6XRTZSfUKsop";
   private theme =
     {
       cake: "light-peach",
