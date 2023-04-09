@@ -35,7 +35,7 @@ export class BuyDeSoMegaSwapComponent implements OnInit {
       [
         environment.megaswapURL,
         "/#/iframe/v1?",
-        `network=${environment.production ? "mainnet" : "testnet"}`,
+        `network=${environment.production ? "mainnet"}`,
         `&theme=${this.theme}`,
         `&depositTicker=${this.depositTicker ?? "BTC"}`,
         "&destinationTickers=DESO",
