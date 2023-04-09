@@ -1,5 +1,3 @@
-import { TestBed } from '@angular/core/testing';
-
 import { MegaswapService } from './megaswap.service';
 
 describe('MegaswapService', () => {
