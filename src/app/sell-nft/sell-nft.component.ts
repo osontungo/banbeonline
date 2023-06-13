@@ -8,8 +8,9 @@ import { of } from "rxjs";
 import { concatMap, last, map } from "rxjs/operators";
 import { TrackingService } from "src/app/tracking.service";
 import { AddUnlockableModalComponent } from "../add-unlockable-modal/add-unlockable-modal.component";
-import { BackendApiService, NFTBidEntryResponse, NFTEntryResponse, PostEntryResponse } from "../backend-api.service";
+import { BackendApiService } from "../backend-api.service";
 import { GlobalVarsService } from "../global-vars.service";
+import { NFTEntryResponse, PostEntryResponse, NFTBidEntryResponse } from "deso-protocol";
 
 @Component({
   selector: "sell-nft-modal",
@@ -150,7 +151,7 @@ export class SellNftComponent implements OnInit {
         },
         (err) => {
           console.error(err);
-          const parsedError = this.backendApi.parseMessageError(err);
+          const parsedError = this.backendApi.parseErrorMessage(err);
           this.globalVars._alertError(parsedError);
           this.tracking.log("nft : sell", { error: parsedError });
         }

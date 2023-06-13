@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { isNil } from "lodash";
 import { IAdapter, IDatasource } from "ngx-ui-scroll";
 import { SwalHelper } from "../../lib/helpers/swal-helper";
 import { BackendApiService } from "../backend-api.service";
@@ -67,8 +68,9 @@ export class NftDropMgrComponent implements OnInit {
             this.updateStateBasedOnNewDropEntry(res.DropEntry, res.Posts);
           }
         },
-        (error) => {
-          this.globalVars._alertError(error.error.error);
+        (e) => {
+          console.error(e);
+          this.globalVars._alertError(e.toString());
         }
       )
       .add(() => {
@@ -77,7 +79,7 @@ export class NftDropMgrComponent implements OnInit {
   }
 
   getPage(page: number) {
-    if (this.lastPage != null && page > this.lastPage) {
+    if (!isNil(this.lastPage) && page > this.lastPage) {
       return [];
     }
     const startIdx = page * NftDropMgrComponent.PAGE_SIZE;
@@ -206,8 +208,9 @@ export class NftDropMgrComponent implements OnInit {
             this.latestDropNumber = res.DropEntry.DropNumber;
           }
         },
-        (error) => {
-          this.globalVars._alertError(error.error.error);
+        (e) => {
+          console.error(e);
+          this.globalVars._alertError(e.toString());
         }
       )
       .add(() => {
@@ -233,8 +236,9 @@ export class NftDropMgrComponent implements OnInit {
         (res: any) => {
           this.updateStateBasedOnNewDropEntry(res.DropEntry, res.Posts);
         },
-        (error) => {
-          this.globalVars._alertError(error.error.error);
+        (e) => {
+          console.error(e);
+          this.globalVars._alertError(e.toString());
         }
       )
       .add(() => {
@@ -260,8 +264,9 @@ export class NftDropMgrComponent implements OnInit {
         (res: any) => {
           this.updateStateBasedOnNewDropEntry(res.DropEntry, res.Posts);
         },
-        (error) => {
-          this.globalVars._alertError(error.error.error);
+        (e) => {
+          console.error(e);
+          this.globalVars._alertError(e.toString());
         }
       )
       .add(() => {
@@ -302,8 +307,9 @@ export class NftDropMgrComponent implements OnInit {
             (res: any) => {
               this.updateStateBasedOnNewDropEntry(res.DropEntry, res.Posts);
             },
-            (error) => {
-              this.globalVars._alertError(error.error.error);
+            (e) => {
+              console.error(e);
+              this.globalVars._alertError(e.toString());
             }
           )
           .add(() => {

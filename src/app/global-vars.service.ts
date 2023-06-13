@@ -9,10 +9,13 @@ import {
   BalanceEntryResponse,
   createAccessGroup,
   DeSoNetwork,
+  DeSoNode,
   getAllAccessGroupsOwned,
   identity,
-  User,
+  PostEntryResponse,
+  User
 } from "deso-protocol";
+import { Identity } from "deso-protocol/src/identity/identity";
 import { isNil } from "lodash";
 import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 import { from, Observable, Observer, of, Subscription } from "rxjs";
@@ -29,7 +32,7 @@ import { OpenProsperService } from "../lib/services/openProsper/openprosper-serv
 import { HashtagResponse, LeaderboardResponse } from "../lib/services/pulse/pulse-service";
 import { ApiInternalService, AppUser } from "./api-internal.service";
 import { RouteNames } from "./app-routing.module";
-import { BackendApiService, DeSoNode, PostEntryResponse, TutorialStatus } from "./backend-api.service";
+import { BackendApiService, TutorialStatus } from "./backend-api.service";
 import { DirectToNativeBrowserModalComponent } from "./direct-to-native-browser/direct-to-native-browser-modal.component";
 import { EmailSubscribeComponent } from "./email-subscribe-modal/email-subscribe.component";
 import { FeedComponent } from "./feed/feed.component";
@@ -71,7 +74,9 @@ export class GlobalVarsService {
     private locationStrategy: LocationStrategy,
     private modalService: BsModalService,
     private tracking: TrackingService
-  ) {}
+  ) {
+    this.showInstallPWA = this.backendApi.GetStorage(this.backendApi.ShowInstallPWAPanelKey) ?? true;
+  }
 
   static MAX_POST_LENGTH = 560;
 
@@ -141,7 +146,8 @@ export class GlobalVarsService {
   // and make everything use sockets.
   updateEverything: any;
 
-  emailRegExp = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
+  emailRegExp =
+    /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
 
   latestBitcoinAPIResponse: any;
 
@@ -233,6 +239,8 @@ export class GlobalVarsService {
   identityInfoResponse?: any;
 
   browserSupportsWebPush: boolean = false;
+
+  showInstallPWA: boolean = false;
 
   // All notification categories, and their respective notification types.
   notificationCategories = {
@@ -362,7 +370,8 @@ export class GlobalVarsService {
         userVisibleOnly: true,
         applicationServerKey: applicationServerKey,
       });
-    } catch (error) {
+    } catch (e) {
+      console.error(e);
       this.tracking.log("browser-push-notification-prompt : deny");
       return;
     }
@@ -563,7 +572,7 @@ export class GlobalVarsService {
         if (defaultMessagingGroup) {
           return defaultMessagingGroup;
         } else {
-          const { currentUser } = identity.snapshot();
+          const { currentUser } = (identity as Identity<Storage>).snapshot();
 
           if (!currentUser) {
             throw new Error("Cannot create an access group without an identity user.");
@@ -1127,17 +1136,23 @@ export class GlobalVarsService {
   launchIdentityFlow(): Observable<any> {
     let obs$: Observable<any> = from(identity.login()).pipe(share());
 
-    obs$.subscribe((res) => {
-      this.userSigningUp = res.signedUp;
-      this.tracking.log(`identity : ${res.signedUp ? "signup" : "login"}`, {
-        ...((res.signedUp || typeof res.phoneNumberSuccess !== "undefined") && {
-          phoneNumberSuccess: res.phoneNumberSuccess,
-        }),
-      });
-      this.updateEverything().add(() => {
-        this.flowRedirect(res.signedUp || res.phoneNumberSuccess);
-      });
-    });
+    obs$.subscribe(
+      (res) => {
+        this.userSigningUp = res.signedUp;
+        this.tracking.log(`identity : ${res.signedUp ? "signup" : "login"}`, {
+          ...((res.signedUp || typeof res.phoneNumberSuccess !== "undefined") && {
+            phoneNumberSuccess: res.phoneNumberSuccess,
+          }),
+        });
+        this.updateEverything().add(() => {
+          this.flowRedirect(res.signedUp || res.phoneNumberSuccess);
+        });
+      },
+      (error) => {
+        this.tracking.log(`identity : login`, { error });
+        this._alertError(error.toString());
+      }
+    );
 
     return obs$;
   }
@@ -1383,8 +1398,9 @@ export class GlobalVarsService {
             this.loggedInUser.TutorialStatus = TutorialStatus.SKIPPED;
             this.router.navigate([RouteNames.BROWSE]);
           },
-          (err) => {
-            this._alertError(err.error.error);
+          (e) => {
+            console.error(e);
+            this._alertError(e.toString());
           }
         );
         tutorialComponent.tutorialCleanUp();
@@ -1418,7 +1434,10 @@ export class GlobalVarsService {
   }
 
   windowIsPWA(): Boolean {
-    return window.matchMedia("(display-mode: standalone)").matches;
+    const isInWebAppiOS = (window.navigator as any).standalone === true;
+    const isInWebAppChrome = window.matchMedia("(display-mode: standalone)").matches;
+
+    return isInWebAppiOS || isInWebAppChrome;
   }
 
   getDesoNetworkFromURL(nodeURI: string) {
@@ -1436,4 +1455,9 @@ export class GlobalVarsService {
         return environment.production ? DeSoNetwork.mainnet : DeSoNetwork.testnet;
     }
   }
+
+  closeInstallPWA = () => {
+    this.backendApi.SetStorage(this.backendApi.ShowInstallPWAPanelKey, false);
+    this.showInstallPWA = false;
+  };
 }

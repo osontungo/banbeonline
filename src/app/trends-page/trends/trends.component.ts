@@ -2,6 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { Title } from "@angular/platform-browser";
 import { Router } from "@angular/router";
+import { isNil } from "lodash";
 import { BsModalService } from "ngx-bootstrap/modal";
 import { IAdapter, IDatasource } from "ngx-ui-scroll";
 import { InfiniteScroller } from "src/app/infinite-scroller";
@@ -44,7 +45,7 @@ export class TrendsComponent implements OnInit {
   hashtagLeaderboard: HashtagResponse[] = [];
   availableTabs = [
     RightBarCreatorsComponent.GAINERS.name,
-    RightBarCreatorsComponent.HASHTAGS.name,
+    // RightBarCreatorsComponent.HASHTAGS.name,
     RightBarCreatorsComponent.DIAMONDS.name,
   ];
 
@@ -79,19 +80,19 @@ export class TrendsComponent implements OnInit {
     this.selectedOptionWidth = rightTabOption.width + "px";
     this.infiniteScroller.reset();
     this.datasource.adapter.reset();
-    if (this.activeTab === RightBarCreatorsComponent.HASHTAGS.name) {
-      const openProsperService = new OpenProsperService(this.httpClient);
-      return openProsperService
-        .getTrendingHashtagsPage()
-        .toPromise()
-        .then((res) => {
-          this.hashtagLeaderboard = res;
-        });
-    }
+    // if (this.activeTab === RightBarCreatorsComponent.HASHTAGS.name) {
+    //   const openProsperService = new OpenProsperService(this.httpClient);
+    //   return openProsperService
+    //     .getTrendingHashtagsPage()
+    //     .toPromise()
+    //     .then((res) => {
+    //       this.hashtagLeaderboard = res;
+    //     });
+    // }
   }
 
   getPage(page: number) {
-    if (this.lastPage != null && page > this.lastPage) {
+    if (!isNil(this.lastPage) && page > this.lastPage) {
       return [];
     }
 

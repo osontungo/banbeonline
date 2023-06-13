@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, HostListener, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { configure, identity, User } from "deso-protocol";
+import { Identity } from "deso-protocol/src/identity/identity";
 import * as introJs from "intro.js/intro.js";
 import * as _ from "lodash";
 import { isNil } from "lodash";
@@ -44,11 +45,75 @@ export class AppComponent implements OnInit {
       ? this.globalVars.localNode
       : `https://${this.globalVars.localNode}`;
     configure({
+      identityURI: environment.identityURL,
       nodeURI,
       mediaURI: `https://${environment.uploadVideoHostname}`,
-      spendingLimitOptions: { IsUnlimited: true },
+      spendingLimitOptions: {
+        GlobalDESOLimit: 1e9,
+        TransactionCountLimitMap: {
+          UPDATE_PROFILE: "UNLIMITED",
+          CREATE_NFT: "UNLIMITED",
+          UPDATE_NFT: "UNLIMITED",
+          SUBMIT_POST: "UNLIMITED",
+          NEW_MESSAGE: "UNLIMITED",
+          BASIC_TRANSFER: "UNLIMITED",
+          FOLLOW: "UNLIMITED",
+          LIKE: "UNLIMITED",
+          CREATOR_COIN: "UNLIMITED",
+          CREATOR_COIN_TRANSFER: "UNLIMITED",
+          ACCEPT_NFT_BID: "UNLIMITED",
+          BURN_NFT: "UNLIMITED",
+          CREATE_USER_ASSOCIATION: "UNLIMITED",
+          CREATE_POST_ASSOCIATION: "UNLIMITED",
+          ACCESS_GROUP: "UNLIMITED",
+          ACCESS_GROUP_MEMBERS: "UNLIMITED",
+        },
+        CreatorCoinOperationLimitMap: {
+          "": { any: "UNLIMITED" },
+        },
+        AssociationLimitMap: [
+          {
+            AssociationClass: "Post",
+            AssociationType: "",
+            AppScopeType: "Any",
+            AppPublicKeyBase58Check: "",
+            AssociationOperation: "Any",
+            OpCount: "UNLIMITED",
+          },
+          {
+            AssociationClass: "User",
+            AssociationType: "",
+            AppPublicKeyBase58Check: "",
+            AppScopeType: "Any",
+            AssociationOperation: "Any",
+            OpCount: "UNLIMITED",
+          },
+        ],
+        AccessGroupLimitMap: [
+          {
+            AccessGroupOwnerPublicKeyBase58Check: "",
+            ScopeType: "Any",
+            AccessGroupKeyName: "",
+            OperationType: "Any",
+            OpCount: "UNLIMITED",
+          },
+        ],
+        AccessGroupMemberLimitMap: [
+          {
+            AccessGroupOwnerPublicKeyBase58Check: "",
+            ScopeType: "Any",
+            AccessGroupKeyName: "",
+            OperationType: "Any",
+            OpCount: "UNLIMITED",
+          },
+        ],
+        NFTOperationLimitMap: {
+          "": { 0: { any: "UNLIMITED" } },
+        },
+      },
       MinFeeRateNanosPerKB: 1000,
       network: this.globalVars.getDesoNetworkFromURL(nodeURI),
+      appName: "Diamond App",
     });
 
     // log interaction events emitted by identity
@@ -59,10 +124,6 @@ export class AppComponent implements OnInit {
     });
   }
   static DYNAMICALLY_ADDED_ROUTER_LINK_CLASS = "js-app-component__dynamically-added-router-link-class";
-
-  showUsernameTooltip = false;
-
-  desoToUSDExchangeRateToDisplay = "fetching...";
 
   // Throttle the calls to update the top-level data so they only happen after a
   // previous call has finished.
@@ -109,7 +170,7 @@ export class AppComponent implements OnInit {
 
     this.callingUpdateTopLevelData = true;
 
-    const { currentUser } = identity.snapshot();
+    const { currentUser } = (identity as Identity<Storage>).snapshot();
 
     return zip(
       this.backendApi.GetUsersStateless([currentUser?.publicKey], false),
@@ -300,7 +361,7 @@ export class AppComponent implements OnInit {
   loadApp() {
     // Load service worker for push notifications.
     this.globalVars.initializeWebPush();
-    const { currentUser, alternateUsers } = identity.snapshot();
+    const { currentUser, alternateUsers } = (identity as Identity<Storage>).snapshot();
     this.tracking.log("page : load", { isLoggedIn: !!currentUser });
 
     let publicKeys = [];

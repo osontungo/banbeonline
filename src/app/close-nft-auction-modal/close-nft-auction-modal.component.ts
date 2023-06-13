@@ -3,8 +3,9 @@ import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 import { of } from "rxjs";
 import { concatMap, last, map } from "rxjs/operators";
 import { TrackingService } from "src/app/tracking.service";
-import { BackendApiService, NFTEntryResponse, PostEntryResponse } from "../backend-api.service";
+import { BackendApiService } from "../backend-api.service";
 import { GlobalVarsService } from "../global-vars.service";
+import { NFTEntryResponse, PostEntryResponse } from "deso-protocol";
 
 @Component({
   selector: "close-nft-auction-modal",
@@ -69,8 +70,8 @@ export class CloseNftAuctionModalComponent {
         },
         (err) => {
           console.error(err);
-          const parsedError = this.backendApi.parseMessageError(err);
-          this.globalVars._alertError(this.backendApi.parseMessageError(err));
+          const parsedError = this.backendApi.parseErrorMessage(err);
+          this.globalVars._alertError(this.backendApi.parseErrorMessage(err));
           this.tracking.log("nft-auction : close", {
             error: parsedError,
           });

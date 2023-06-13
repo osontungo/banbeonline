@@ -4,9 +4,10 @@ import { BsModalService } from "ngx-bootstrap/modal";
 import { of } from "rxjs";
 import { map, switchMap, takeWhile } from "rxjs/operators";
 import { environment } from "../../environments/environment";
-import { BackendApiService, ProfileEntryResponse } from "../backend-api.service";
+import { BackendApiService } from "../backend-api.service";
 import { BuyDesoModalComponent } from "../buy-deso-page/buy-deso-modal/buy-deso-modal.component";
 import { GlobalVarsService } from "../global-vars.service";
+import { ProfileEntryResponse } from "deso-protocol";
 
 export class RightBarTabOption {
   name: string;
@@ -26,6 +27,7 @@ export class RightBarCreatorsComponent implements OnInit, OnDestroy {
   @Input() inTutorial: boolean = false;
   isDestroyed: boolean = false;
   earningsProfile?: ProfileEntryResponse;
+  showEarningsCard: boolean = false;
 
   constructor(
     public globalVars: GlobalVarsService,
@@ -61,7 +63,7 @@ export class RightBarCreatorsComponent implements OnInit, OnDestroy {
   selectedOptionWidth: string;
   activeRightTabOption: RightBarTabOption;
   RightBarCreatorsComponent = RightBarCreatorsComponent;
-  static RightBarTabKey = "RightBarTab";
+  static RightBarTabKey = "RightBarTab/v2";
 
   static GAINERS: RightBarTabOption = {
     name: "right_bar.creators.top_daily_gainers",
@@ -73,11 +75,11 @@ export class RightBarCreatorsComponent implements OnInit, OnDestroy {
     width: 275,
     poweredBy: { name: "Altumbase", link: `https://altumbase.com/tools?${environment.node.name}` },
   };
-  static HASHTAGS: RightBarTabOption = {
-    name: "Top Daily Hashtags",
-    width: 225,
-    poweredBy: { name: "Open Prosper", link: "https://openprosper.com" },
-  };
+  // static HASHTAGS: RightBarTabOption = {
+  //   name: "Top Daily Hashtags",
+  //   width: 225,
+  //   poweredBy: { name: "Open Prosper", link: "https://openprosper.com" },
+  // };
 
   static ALL_TIME: RightBarTabOption = {
     name: "right_bar.creators.top_creators_alltime",
@@ -89,15 +91,17 @@ export class RightBarCreatorsComponent implements OnInit, OnDestroy {
     [RightBarCreatorsComponent.GAINERS.name]: RightBarCreatorsComponent.GAINERS,
     [RightBarCreatorsComponent.DIAMONDS.name]: RightBarCreatorsComponent.DIAMONDS,
     [RightBarCreatorsComponent.ALL_TIME.name]: RightBarCreatorsComponent.ALL_TIME,
-    [RightBarCreatorsComponent.HASHTAGS.name]: RightBarCreatorsComponent.HASHTAGS,
+    // [RightBarCreatorsComponent.HASHTAGS.name]: RightBarCreatorsComponent.HASHTAGS,
   };
 
   ngOnInit() {
     const defaultTab = this.globalVars.loggedInUser
-      ? this.backendApi.GetStorage(RightBarCreatorsComponent.RightBarTabKey)
-      : RightBarCreatorsComponent.DIAMONDS.name;
+      ? this.backendApi.GetStorage(RightBarCreatorsComponent.RightBarTabKey) || RightBarCreatorsComponent.ALL_TIME.name
+      : null;
+
     this.activeTab =
-      defaultTab in RightBarCreatorsComponent.chartMap ? defaultTab : RightBarCreatorsComponent.HASHTAGS.name;
+      defaultTab in RightBarCreatorsComponent.chartMap ? defaultTab : RightBarCreatorsComponent.ALL_TIME.name;
+
     this.selectTab(true);
   }
 

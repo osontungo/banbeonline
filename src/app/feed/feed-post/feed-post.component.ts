@@ -26,21 +26,15 @@ import { EmbedUrlParserService } from "../../../lib/services/embed-url-parser-se
 import { FollowService } from "../../../lib/services/follow/follow.service";
 import { SharedDialogs } from "../../../lib/shared-dialogs";
 import { AppRoutingModule, RouteNames } from "../../app-routing.module";
-import {
-  AssociationReactionValue,
-  AssociationType,
-  BackendApiService,
-  NFTEntryResponse,
-  PostAssociation,
-  PostAssociationCountsResponse,
-  PostEntryResponse,
-} from "../../backend-api.service";
+import { AssociationReactionValue, AssociationType, BackendApiService } from "../../backend-api.service";
 import { GlobalVarsService } from "../../global-vars.service";
 import { PlaceBidModalComponent } from "../../place-bid/place-bid-modal/place-bid-modal.component";
 import { TradeCreatorModalComponent } from "../../trade-creator-page/trade-creator-modal/trade-creator-modal.component";
 import { TransferNftAcceptModalComponent } from "../../transfer-nft-accept/transfer-nft-accept-modal/transfer-nft-accept-modal.component";
 import { FeedPostIconRowComponent } from "../feed-post-icon-row/feed-post-icon-row.component";
 import { FeedPostImageModalComponent } from "../feed-post-image-modal/feed-post-image-modal.component";
+import { NFTEntryResponse, PostAssociationResponse, PostEntryResponse, AssociationCountsResponse } from "deso-protocol";
+
 /**
  * NOTE: This was previously handled by updating the node list in the core repo,
  * but that approach was deprecated and there is not currently an interim
@@ -55,6 +49,10 @@ const DEPRECATED_CUSTOM_ATTRIBUTIONS = {
     link: "https://web3setu.com",
   },
 };
+
+export interface DecryptedNFTEntryResponse extends NFTEntryResponse {
+  DecryptedUnlockableText?: string;
+}
 
 @Component({
   selector: "feed-post",
@@ -88,6 +86,10 @@ export class FeedPostComponent implements OnInit {
       this.postContent = post;
     }
 
+    if (post.IsNFT && post.ProfileEntryResponse?.Username) {
+      this.frozenNFTTooltip = `This NFT is permanently frozen by @${post.ProfileEntryResponse.Username} on the DeSo blockchain`;
+    }
+
     setTimeout(() => {
       this.ref.detectChanges();
     }, 0);
@@ -113,7 +115,7 @@ export class FeedPostComponent implements OnInit {
   constructor(
     public globalVars: GlobalVarsService,
     private backendApi: BackendApiService,
-    private ref: ChangeDetectorRef,
+    public ref: ChangeDetectorRef,
     private router: Router,
     private modalService: BsModalService,
     private sanitizer: DomSanitizer,
@@ -238,7 +240,7 @@ export class FeedPostComponent implements OnInit {
   mySerialNumbersNotForSale: NFTEntryResponse[];
   serialNumbersDisplay: string;
   nftEntryResponses: NFTEntryResponse[];
-  decryptableNFTEntryResponses: NFTEntryResponse[];
+  decryptableNFTEntryResponses: DecryptedNFTEntryResponse[];
   isFollowing: boolean;
   showReadMoreRollup = false;
   showRestOfPost = false;
@@ -256,11 +258,11 @@ export class FeedPostComponent implements OnInit {
   streamPlayer: any;
   imageLoaded: boolean = false;
   embedLoaded: boolean = false;
-  postReactionCounts: PostAssociationCountsResponse = {
+  postReactionCounts: AssociationCountsResponse = {
     Counts: {},
     Total: 0,
   };
-  myReactions: Array<PostAssociation> = [];
+  myReactions: Array<PostAssociationResponse> = [];
   reactionsLoaded: boolean = false;
   pollPost: boolean = false;
 
@@ -268,6 +270,8 @@ export class FeedPostComponent implements OnInit {
     "This NFT will come with content that's encrypted and only unlockable by the winning bidder. Note that if an NFT is being resold, it is not guaranteed that the new unlockable will be the same original unlockable.";
   mOfNNFTTooltip =
     "Each NFT can have multiple editions, each of which has its own unique serial number. This shows how many editions are currently on sale and how many there are in total. Generally, editions with lower serial numbers are more valuable.";
+
+  frozenNFTTooltip = `This NFT is permanently frozen on the DeSo blockchain`;
 
   attribution: { link: string; text: string };
 
@@ -607,9 +611,9 @@ export class FeedPostComponent implements OnInit {
               this.tracking.log("post : hide");
               this.postDeleted.emit(response.PostEntryResponse);
             },
-            (err) => {
-              console.error(err);
-              const parsedError = this.backendApi.parsePostError(err);
+            (e) => {
+              console.error(e);
+              const parsedError = this.backendApi.parseErrorMessage(e);
               this.tracking.log("post : hide", { error: parsedError });
               this.globalVars._alertError(parsedError);
             }
@@ -716,8 +720,9 @@ export class FeedPostComponent implements OnInit {
           });
           this.ref.detectChanges();
         },
-        (err) => {
-          this.globalVars._alertError(JSON.stringify(err.error));
+        (e) => {
+          console.error(e);
+          this.globalVars._alertError(e);
         }
       )
       .add(() => {
@@ -745,8 +750,9 @@ export class FeedPostComponent implements OnInit {
           });
           this.ref.detectChanges();
         },
-        (err) => {
-          this.globalVars._alertError(JSON.stringify(err.error));
+        (e) => {
+          console.error(e);
+          this.globalVars._alertError(e);
         }
       )
       .add(() => {
@@ -780,7 +786,7 @@ export class FeedPostComponent implements OnInit {
         return;
       }
       this.livepeerVideo = true;
-      this.videoURL = this.postContent.VideoURLs[0] + "&autoplay=false";
+      this.videoURL = this.postContent.VideoURLs[0] + "&autoPlay=false";
     }
   }
 
@@ -1069,12 +1075,12 @@ export class FeedPostComponent implements OnInit {
     );
   }
 
-  updateReactionCounts(counts: PostAssociationCountsResponse) {
+  updateReactionCounts(counts: AssociationCountsResponse) {
     this.postReactionCounts = counts;
     this.ref.detectChanges();
   }
 
-  updateMyReactions(reactions: Array<PostAssociation>) {
+  updateMyReactions(reactions: Array<PostAssociationResponse>) {
     this.myReactions = reactions;
     this.ref.detectChanges();
   }

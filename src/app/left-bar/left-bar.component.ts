@@ -1,6 +1,6 @@
 import { Component, EventEmitter, HostBinding, Input, Output } from "@angular/core";
 import { Router } from "@angular/router";
-import { identity } from "@deso-core/identity";
+import { identity } from "deso-protocol";
 import { filter } from "lodash";
 import { BsModalService } from "ngx-bootstrap/modal";
 import { TrackingService } from "src/app/tracking.service";
@@ -108,5 +108,11 @@ export class LeftBarComponent {
 
   closeLeftBar() {
     this.closeMobile.emit(true);
+  }
+
+  addAppToHomeScreen() {
+    this.backendApi.SetStorage(this.backendApi.ShowInstallPWAPanelKey, true);
+    this.globalVars.showInstallPWA = true;
+    this.globalVars.isLeftBarMobileOpen = false;
   }
 }

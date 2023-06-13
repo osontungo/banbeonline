@@ -10,8 +10,9 @@ import {
   getAllMessageThreads,
   identity,
   ProfileEntryResponse,
-  PublicKeyToProfileEntryResponseMap,
+  PublicKeyToProfileEntryResponseMap
 } from "deso-protocol";
+import { Identity } from "deso-protocol/src/identity/identity";
 import { BsModalService } from "ngx-bootstrap/modal";
 import { GlobalVarsService } from "src/app/global-vars.service";
 import { CreateAccessGroupComponent } from "src/app/messages-page/create-access-group/create-access-group.component";
@@ -59,7 +60,7 @@ export class MessagesPageComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const { currentUser } = identity.snapshot();
+    const { currentUser } = (identity as Identity<Storage>).snapshot();
     if (!currentUser) {
       this.globalVars._alertError("You must be logged in to create a new thread.");
       return;
@@ -108,7 +109,8 @@ export class MessagesPageComponent implements OnInit, OnDestroy {
       this.threadPreviewList.unshift(threadListItem);
       this.selectThread(threadListItem);
     } catch (e) {
-      this.globalVars._alertError(e?.error?.error ?? e?.message);
+      console.error(e);
+      this.globalVars._alertError(e.toString());
     }
   };
 
@@ -219,7 +221,7 @@ export class MessagesPageComponent implements OnInit, OnDestroy {
           // least show up. This is not a great UX, but to deal with it properly
           // would take more thought and time which is unfortunately not
           // available atm.
-          const identityState = identity.snapshot();
+          const identityState = (identity as Identity<Storage>).snapshot();
           const TimestampNanos = Date.now() * 1e6;
           const groupsOwnedWithoutMessages: DecryptedMessageEntryResponse[] = this.accessGroupsOwned
             .filter(
@@ -261,9 +263,9 @@ export class MessagesPageComponent implements OnInit, OnDestroy {
           return this.threadPreviewList;
         });
       })
-      .catch((err) => {
-        this.globalVars._alertError(err?.error?.error ?? err?.message);
-        console.error(err);
+      .catch((e) => {
+        console.error(e);
+        this.globalVars._alertError(e.toString());
       })
       .finally(() => {
         if (this.isDestroyed) return;

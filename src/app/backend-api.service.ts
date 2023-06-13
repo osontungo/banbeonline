@@ -40,6 +40,7 @@ import {
   burnNFT,
   buyCreatorCoin,
   checkPartyAccessGroups,
+  ConstructedTransactionResponse,
   countPostAssociations,
   createNFT,
   createNFTBid,
@@ -83,11 +84,14 @@ import {
   getUnreadNotificationsCount,
   getUserGlobalMetadata,
   getUserMetadata,
+  GetUserMetadataResponse,
+  GetUsersResponse,
   getUsersStateless,
   getVideoStatus,
   HodlersSortType,
   identity,
-  NFTBidEntryResponse as NFTBidEntry,
+  NFTEntryResponse,
+  PostEntryResponse,
   resendVerifyEmail,
   sellCreatorCoin,
   sendDeso,
@@ -95,7 +99,6 @@ import {
   sendDiamonds,
   setNotificationMetadata,
   submitPost,
-  SubmitTransactionResponse,
   transferCreatorCoin,
   transferNFT,
   updateFollowingStatus,
@@ -105,9 +108,9 @@ import {
   uploadImage,
   uploadVideo,
   UploadVideoV2Response,
-  User,
-  verifyEmail,
+  verifyEmail
 } from "deso-protocol";
+import { Identity } from "deso-protocol/src/identity/identity";
 import { EMPTY, forkJoin, from, Observable, of, throwError } from "rxjs";
 import { catchError, expand, map, reduce, switchMap, tap } from "rxjs/operators";
 import { environment } from "src/environments/environment";
@@ -120,45 +123,6 @@ export class BackendRoutes {
   static RoutePathStartOrSkipTutorial = "/api/v0/start-or-skip-tutorial";
   static RoutePathCompleteTutorial = "/api/v0/complete-tutorial";
   static RoutePathUpdateTutorialStatus = "/api/v0/update-tutorial-status";
-}
-
-// TODO: migrate all these backend types to use deso-protocol-types
-
-export class Transaction {
-  inputs: {
-    txID: string;
-    index: number;
-  }[];
-  outputs: {
-    amountNanos: number;
-    publicKeyBase58Check: string;
-  }[];
-
-  txnType: string;
-  publicKeyBase58Check: string;
-  signatureBytesHex: string;
-}
-
-export class ProfileEntryResponse {
-  Username: string;
-  Description: string;
-  ProfilePic?: string;
-  CoinEntry?: {
-    DeSoLockedNanos: number;
-    CoinWatermarkNanos: number;
-    CoinsInCirculationNanos: number;
-    CreatorBasisPoints: number;
-  };
-  CoinPriceDeSoNanos?: number;
-  StakeMultipleBasisPoints?: number;
-  PublicKeyBase58Check: string;
-  UsersThatHODL?: any;
-  Posts?: PostEntryResponse[];
-  IsReserved?: boolean;
-  IsVerified?: boolean;
-  ExtraData?: {
-    [key: string]: string;
-  };
 }
 
 export enum TutorialStatus {
@@ -174,193 +138,7 @@ export enum TutorialStatus {
   COMPLETE = "TutorialComplete",
 }
 
-export class GetSinglePostResponse {
-  PostFound: PostEntryResponse;
-}
-
-export class PostEntryResponse {
-  PostHashHex: string;
-  PosterPublicKeyBase58Check: string;
-  ParentStakeID: string;
-  Body: string;
-  RepostedPostHashHex: string;
-  ImageURLs: string[];
-  VideoURLs: string[];
-  RepostPost: PostEntryResponse;
-  CreatorBasisPoints: number;
-  StakeMultipleBasisPoints: number;
-  TimestampNanos: number;
-  IsHidden: boolean;
-  ConfirmationBlockHeight: number;
-  // PostEntryResponse of the post that this post reposts.
-  RepostedPostEntryResponse: PostEntryResponse;
-  // The profile associated with this post.
-  ProfileEntryResponse: ProfileEntryResponse;
-  // The comments associated with this post.
-  Comments: PostEntryResponse[];
-  LikeCount: number;
-  RepostCount: number;
-  QuoteRepostCount: number;
-  DiamondCount: number;
-  // Information about the reader's state w/regard to this post (e.g. if they liked it).
-  PostEntryReaderState?: PostEntryReaderState;
-  // True if this post hash hex is in the global feed.
-  InGlobalFeed: boolean;
-  InHotFeed: boolean;
-  CommentCount: number;
-  // A list of parent posts for this post (ordered: root -> closest parent post).
-  ParentPosts: PostEntryResponse[];
-  InMempool: boolean;
-  IsPinned: boolean;
-  DiamondsFromSender?: number;
-  NumNFTCopies: number;
-  NumNFTCopiesForSale: number;
-  NumNFTCopiesBurned?: number;
-  HasUnlockable: boolean;
-  IsNFT: boolean;
-  NFTRoyaltyToCoinBasisPoints: number;
-  NFTRoyaltyToCreatorBasisPoints: number;
-  HotnessScore: number;
-  PostMultiplier: number;
-  PostExtraData: Record<string, any>;
-  AdditionalDESORoyaltiesMap: { [k: string]: number };
-  AdditionalCoinRoyaltiesMap: { [k: string]: number };
-}
-
-export class DiamondsPost {
-  Post: PostEntryResponse;
-  // Boolean that is set to true when this is the first post at a given diamond level.
-  ShowDiamondDivider?: boolean;
-}
-
-export class PostEntryReaderState {
-  // This is true if the reader has liked the associated post.
-  LikedByReader?: boolean;
-
-  // This is true if the reader has reposted the associated post.
-  RepostedByReader?: boolean;
-
-  // This is the post hash hex of the repost
-  RepostPostHashHex?: string;
-
-  // Level of diamond the user gave this post.
-  DiamondLevelBestowed?: number;
-}
-
-export class PostTxnBody {
-  Body?: string;
-  ImageURLs?: string[];
-  VideoURLs?: string[];
-}
-
-export class NFTEntryResponse {
-  OwnerPublicKeyBase58Check: string;
-  ProfileEntryResponse: ProfileEntryResponse | undefined;
-  PostEntryResponse: PostEntryResponse | undefined;
-  SerialNumber: number;
-  IsForSale: boolean;
-  IsPending?: boolean;
-  IsBuyNow: boolean;
-  MinBidAmountNanos: number;
-  LastAcceptedBidAmountNanos: number;
-
-  HighestBidAmountNanos: number;
-  LowestBidAmountNanos: number;
-
-  // only populated when the reader is the owner of the nft and there is an unlockable.
-  LastOwnerPublicKeyBase58Check: string | undefined;
-  EncryptedUnlockableText: string | undefined;
-  DecryptedUnlockableText: string | undefined;
-  BuyNowPriceNanos: number;
-}
-
-// TODO: fix this type. The additional fields here are added client side
-// and are not part of the backend schema.
-export type NFTBidEntryResponse = NFTBidEntry & {
-  selected?: boolean;
-  EarningsAmountNanos?: number;
-};
-
-export class NFTCollectionResponse {
-  AvailableSerialNumbers: number[];
-  PostEntryResponse: PostEntryResponse;
-  ProfileEntryResponse: ProfileEntryResponse;
-  NumCopiesForSale: number;
-  HighestBidAmountNanos: number;
-  LowestBidAmountNanos: number;
-}
-
-export class NFTBidData {
-  PostEntryResponse: PostEntryResponse;
-  NFTEntryResponses: NFTEntryResponse[];
-  BidEntryResponses: NFTBidEntryResponse[];
-}
-
-export class DeSoNode {
-  Name: string;
-  URL: string;
-  Owner: string;
-}
-
-type GetUserMetadataResponse = {
-  HasPhoneNumber: boolean;
-  CanCreateProfile: boolean;
-  BlockedPubKeys: { [k: string]: any };
-  HasEmail: boolean;
-  EmailVerified: boolean;
-  JumioFinishedTime: number;
-  JumioVerified: boolean;
-  JumioReturned: boolean;
-};
-
-type GetUsersStatelessResponse = {
-  UserList: User[];
-  DefaultFeeRateNanosPerKB: number;
-  ParamUpdaters: { [k: string]: boolean };
-};
-
-type CountryLevelSignUpBonus = {
-  AllowCustomReferralAmount: boolean;
-  ReferralAmountOverrideUSDCents: number;
-  AllowCustomKickbackAmount: boolean;
-  KickbackAmountOverrideUSDCents: number;
-};
-
-export type MessagingGroupMember = {
-  GroupMemberPublicKeyBase58Check: string;
-  GroupMemberKeyName: string;
-  EncryptedKey: string;
-};
-
-export type MessagingGroupEntryResponse = {
-  GroupOwnerPublicKeyBase58Check: string;
-  MessagingPublicKeyBase58Check: string;
-  MessagingGroupKeyName: string;
-  MessagingGroupMembers: MessagingGroupMember[];
-  EncryptedKey: string;
-  ExtraData: { [k: string]: string };
-};
-
-export type GetAllMessagingGroupKeysResponse = {
-  MessagingGroupEntries: MessagingGroupEntryResponse[];
-};
-
-export type MessagingGroupMemberResponse = {
-  // GroupMemberPublicKeyBase58Check is the main public key of the group member.
-  GroupMemberPublicKeyBase58Check: string;
-
-  // GroupMemberKeyName is the key name of the member that we encrypt the group messaging public key to. The group
-  // messaging public key should not be confused with the GroupMemberPublicKeyBase58Check, the former is the public
-  // key of the whole group, while the latter is the public key of the group member.
-  GroupMemberKeyName: string;
-
-  // EncryptedKey is the encrypted private key corresponding to the group messaging public key that's encrypted
-  // to the member's registered messaging key labeled with GroupMemberKeyName.
-  EncryptedKey: string;
-};
-
 export enum AssociationType {
-  // TODO: add more types when needed
   reaction = "REACTION",
   pollResponse = "POLL_RESPONSE",
 }
@@ -377,28 +155,6 @@ export enum AssociationReactionValue {
 
 // TODO: other association values can be added as Value1 | Value2 etc.
 export type AssociationValue = AssociationReactionValue | string;
-
-export interface PostAssociation {
-  AppPublicKeyBase58Check: string;
-  AssociationID: string;
-  AssociationType: AssociationType;
-  AssociationValue: AssociationValue;
-  BlockHeight: number;
-  ExtraData: any;
-  PostHashHex: string;
-  TransactorPublicKeyBase58Check: string;
-}
-
-export interface PostAssociationCountsResponse {
-  Counts: { [key in AssociationValue]?: number };
-  Total: number;
-}
-
-export interface PostAssociationsResponse {
-  Associations: Array<PostAssociation>;
-  PostHashHexToPostEntryResponse: { [postHex: string]: PostEntryResponse };
-  PublicKeyToProfileEntryResponse: { [publicKey: string]: ProfileEntryResponse };
-}
 
 @Injectable({
   providedIn: "root",
@@ -441,6 +197,8 @@ export class BackendApiService {
   LegacyUserListKey = "userList";
   LegacySeedListKey = "seedList";
 
+  ShowInstallPWAPanelKey = "showInstallPWA";
+
   SetStorage(key: string, value: any) {
     localStorage.setItem(key, value || value === false ? JSON.stringify(value) : "");
   }
@@ -451,7 +209,7 @@ export class BackendApiService {
 
   GetStorage(key: string) {
     const data = localStorage.getItem(key);
-    if (data === "") {
+    if (data === null || data === "") {
       return null;
     }
 
@@ -478,23 +236,11 @@ export class BackendApiService {
     } else {
       // The backend returned an unsuccessful response code.
       // The response body may contain clues as to what went wrong,
-      console.error(`Backend returned code ${error.status}, ` + `body was: ${JSON.stringify(error.error)}`);
+
+      console.error(`Backend returned code ${error.status}, ` + `body was: ${JSON.stringify(error)}`);
     }
     // return an observable with a user-facing error message
     return throwError(error);
-  }
-
-  signAndSubmitTransaction(request: Observable<any>): Observable<any> {
-    return request.pipe(
-      switchMap((res) => {
-        return from(identity.signAndSubmit(res.TransactionHex));
-      }),
-      catchError(this._handleError)
-    );
-  }
-
-  get(endpoint: string, path: string) {
-    return this.httpClient.get<any>(this._makeRequestURL(endpoint, path)).pipe(catchError(this._handleError));
   }
 
   post(endpoint: string, path: string, body: any): Observable<any> {
@@ -533,7 +279,7 @@ export class BackendApiService {
     SenderPublicKeyBase58Check: string,
     RecipientPublicKeyOrUsername: string,
     AmountNanos: number
-  ): Observable<SendDeSoResponse> {
+  ): Observable<SendDeSoResponse | ConstructedTransactionResponse> {
     return from(
       sendDeso(
         {
@@ -550,7 +296,7 @@ export class BackendApiService {
     SenderPublicKeyBase58Check: string,
     RecipientPublicKeyOrUsername: string,
     AmountNanos: number
-  ): Observable<SendDeSoResponse & SubmitTransactionResponse> {
+  ): Observable<SendDeSoResponse> {
     return from(
       sendDeso({
         SenderPublicKeyBase58Check,
@@ -564,7 +310,7 @@ export class BackendApiService {
   GetUsersStateless(
     PublicKeysBase58Check: string[],
     SkipForLeaderboard: boolean = false
-  ): Observable<GetUsersStatelessResponse> {
+  ): Observable<GetUsersResponse> {
     return from(
       getUsersStateless({
         PublicKeysBase58Check,
@@ -609,7 +355,7 @@ export class BackendApiService {
         BuyNowPriceNanos,
         AdditionalDESORoyaltiesMap,
         AdditionalCoinRoyaltiesMap,
-      })
+      }).then(mergeTxResponse)
     );
   }
 
@@ -631,7 +377,7 @@ export class BackendApiService {
         MinBidAmountNanos,
         IsBuyNow,
         BuyNowPriceNanos,
-      })
+      }).then(mergeTxResponse)
     );
   }
 
@@ -647,7 +393,7 @@ export class BackendApiService {
         NFTPostHashHex,
         SerialNumber,
         BidAmountNanos,
-      })
+      }).then(mergeTxResponse)
     );
   }
 
@@ -657,7 +403,7 @@ export class BackendApiService {
         UpdaterPublicKeyBase58Check,
         NFTPostHashHex,
         SerialNumber,
-      })
+      }).then(mergeTxResponse)
     );
   }
 
@@ -671,7 +417,7 @@ export class BackendApiService {
         UpdaterPublicKeyBase58Check,
         NFTPostHashHex,
         SerialNumber,
-      })
+      }).then(mergeTxResponse)
     );
   }
 
@@ -694,7 +440,7 @@ export class BackendApiService {
           })
         ).pipe(
           switchMap((resp) => {
-            const identityState = identity.snapshot();
+            const identityState = (identity as Identity<Storage>).snapshot();
             if (!identityState.currentUser) {
               throw new Error("No identityState.currentUser");
             }
@@ -728,7 +474,7 @@ export class BackendApiService {
   DecryptUnlockableTexts(
     ReaderPublicKeyBase58Check: string,
     UnlockableNFTEntryResponses: NFTEntryResponse[]
-  ): Observable<any> {
+  ): Observable<Array<NFTEntryResponse & { DecryptedUnlockableText?: string }>> {
     const lastOwnerPublicKey = UnlockableNFTEntryResponses[0]?.LastOwnerPublicKeyBase58Check;
     if (!lastOwnerPublicKey) {
       throw new Error("lastOwnerPublicKey missing");
@@ -743,7 +489,7 @@ export class BackendApiService {
       })
     ).pipe(
       switchMap((resp) => {
-        const identityState = identity.snapshot();
+        const identityState = (identity as Identity<Storage>).snapshot();
         if (!identityState.currentUser) {
           throw new Error("No identityState.currentUser");
         }
@@ -758,10 +504,10 @@ export class BackendApiService {
         );
       }),
       map((decryptedText) => {
-        for (let i = 0; i < UnlockableNFTEntryResponses.length; i++) {
-          UnlockableNFTEntryResponses[i].DecryptedUnlockableText = decryptedText[i];
-        }
-        return UnlockableNFTEntryResponses;
+        return UnlockableNFTEntryResponses.map((e, i) => ({
+          ...e,
+          DecryptedUnlockableText: decryptedText[i],
+        }));
       }),
       catchError(this._handleError)
     );
@@ -846,7 +592,7 @@ export class BackendApiService {
           })
         ).pipe(
           switchMap((resp) => {
-            const identityState = identity.snapshot();
+            const identityState = (identity as Identity<Storage>).snapshot();
             if (!identityState.currentUser) {
               throw new Error("No identityState.currentUser");
             }
@@ -884,7 +630,8 @@ export class BackendApiService {
     BodyObj: DeSoBodySchema,
     RepostedPostHashHex: string,
     PostExtraData: any,
-    IsHidden: boolean
+    IsHidden: boolean,
+    IsFrozen: boolean = false
   ): Observable<any> {
     return from(
       submitPost({
@@ -895,7 +642,8 @@ export class BackendApiService {
         RepostedPostHashHex,
         PostExtraData,
         IsHidden,
-      })
+        IsFrozen,
+      }).then(mergeTxResponse)
     );
   }
 
@@ -1170,7 +918,7 @@ export class BackendApiService {
     ).pipe(map(mergeTxResponse));
   }
 
-  DeletePostAssociation(TransactorPublicKeyBase58Check: string, AssociationID: string): Observable<any> {
+  DeletePostAssociation(TransactorPublicKeyBase58Check: string, AssociationID: string) {
     return from(
       deletePostAssociation({
         TransactorPublicKeyBase58Check,
@@ -1253,13 +1001,12 @@ export class BackendApiService {
     );
   }
 
-  // TODO: add associations data calls
   GetPostAssociationsCounts(
     Post: PostEntryResponse,
     AssociationType: AssociationType,
     AssociationValues: Array<AssociationValue>,
     SkipLegacyLikes: boolean = false
-  ): Observable<PostAssociationCountsResponse> {
+  ) {
     return from(
       countPostAssociations({
         PostHashHex: Post.PostHashHex,
@@ -1298,12 +1045,7 @@ export class BackendApiService {
         DiamondPostHashHex,
         DiamondLevel,
       })
-    ).pipe(
-      map((res) => ({
-        ...res.constructedTransactionResponse,
-        ...res.submittedTransactionResponse,
-      }))
-    );
+    ).pipe(map(mergeTxResponse));
   }
 
   GetDiamondsForPublicKey(PublicKeyBase58Check: string, FetchYouDiamonded: boolean = false): Observable<any> {
@@ -1958,51 +1700,30 @@ export class BackendApiService {
   }
 
   // Error parsing
-  stringifyError(err): string {
-    if (err && err.error && err.error.error) {
-      return err.error.error;
+  stringifyError(err: any): string {
+    const message = err?.toString();
+
+    if (message) {
+      return message;
+    }
+
+    if (err) {
+      return JSON.stringify(err);
+    }
+
+    return "Whoops! Something went wrong. Please try again in one minute.";
+  }
+
+  parseErrorMessage(err): string {
+    if (err.status === 0) {
+      return `${environment.node.name} is experiencing heavy load. Please try again in one minute.`;
+    }
+
+    if (err?.message) {
+      return parseCleanErrorMsg(err.message);
     }
 
     return JSON.stringify(err);
-  }
-
-  parsePostError(err): string {
-    if (err.status === 0) {
-      return `${environment.node.name} is experiencing heavy load. Please try again in one minute.`;
-    }
-
-    let errorMessage = JSON.stringify(err);
-    if (err && err.error && err.error.error) {
-      errorMessage = err.error.error;
-      errorMessage = parseCleanErrorMsg(errorMessage);
-    }
-    return errorMessage;
-  }
-
-  parseProfileError(err): string {
-    if (err.status === 0) {
-      return `${environment.node.name} is experiencing heavy load. Please try again in one minute.`;
-    }
-
-    let errorMessage = JSON.stringify(err);
-    if (err && err.error && err.error.error) {
-      errorMessage = err.error.error;
-      errorMessage = parseCleanErrorMsg(errorMessage);
-    }
-    return errorMessage;
-  }
-
-  parseMessageError(err): string {
-    if (err.status === 0) {
-      return `${environment.node.name} is experiencing heavy load. Please try again in one minute.`;
-    }
-
-    let errorMessage = JSON.stringify(err);
-    if (err && err.error && err.error.error) {
-      errorMessage = err.error.error;
-      errorMessage = parseCleanErrorMsg(errorMessage);
-    }
-    return errorMessage;
   }
 }
 

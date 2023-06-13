@@ -2,6 +2,7 @@
 import { Component, OnDestroy } from "@angular/core";
 import { Router } from "@angular/router";
 import { identity, IdentityDerivePayload } from "deso-protocol";
+import { Identity } from "deso-protocol/src/identity/identity";
 import { forkJoin, from, Observable, of, throwError } from "rxjs";
 import { catchError, finalize, first, switchMap, takeWhile } from "rxjs/operators";
 import { GlobalVarsService } from "src/app/global-vars.service";
@@ -9,7 +10,7 @@ import {
   GetCurrentSubscriptionsResponse,
   GetDerivedKeyStatusResponse,
   SetuService,
-  SubscriptionType,
+  SubscriptionType
 } from "src/app/setu.service";
 import { TrackingService } from "src/app/tracking.service";
 import { SwalHelper } from "src/lib/helpers/swal-helper";
@@ -140,7 +141,7 @@ export class TwitterSyncSettingsComponent implements OnDestroy {
         return this.setu.submitTx(signedTransactionHex);
       }),
       switchMap(() => {
-        const { currentUser } = identity.snapshot();
+        const { currentUser } = (identity as Identity<Storage>).snapshot();
         if (!currentUser) throw new Error("no current user found in identity");
         const derivedPublicKey = currentUser.primaryDerivedKey.derivedPublicKeyBase58Check;
         return this.setu.changeSignedStatus({
@@ -164,7 +165,7 @@ export class TwitterSyncSettingsComponent implements OnDestroy {
       throw new Error("cannot sync tweets without a profile");
     }
 
-    const { currentUser } = identity.snapshot();
+    const { currentUser } = (identity as Identity<Storage>).snapshot();
 
     const params = {
       username_deso: this.globalVars.loggedInUser.ProfileEntryResponse?.Username,
@@ -206,12 +207,13 @@ export class TwitterSyncSettingsComponent implements OnDestroy {
           }
         );
       },
-      (err) => {
+      (e) => {
+        const message = e?.error?.error ?? "Whoops, something went wrong! Please try again.";
         this.tracking.log("twitter-sync : create-subscription", {
-          error: err.error?.error,
+          error: message,
           isOnboarding: this.isOnboarding,
         });
-        this.globalVars._alertError(err.error?.error ?? "Something went wrong! Please try again.");
+        this.globalVars._alertError(message);
       }
     );
   }
@@ -246,7 +248,7 @@ export class TwitterSyncSettingsComponent implements OnDestroy {
       }
 
       this.isProcessingSubscription = true;
-      const { currentUser } = identity.snapshot();
+      const { currentUser } = (identity as Identity<Storage>).snapshot();
 
       if (!currentUser) throw new Error("no current user found in identity");
 
@@ -271,14 +273,15 @@ export class TwitterSyncSettingsComponent implements OnDestroy {
               window.localStorage.removeItem(buildLocalStorageKey(this.globalVars.loggedInUser?.PublicKeyBase58Check));
             }
           },
-          (err) => {
+          (e) => {
             if (!this.twitterUserData) throw new Error("twitterUserData is undefined");
+            const message = e?.error?.error ?? "Whoops, something went wrong! Please try again.";
             this.tracking.log("twitter-sync : unsubscribe", {
-              error: err.error?.error,
+              error: message,
               isOnboarding: this.isOnboarding,
               twitterHandle: this.twitterUserData.twitter_username,
             });
-            this.globalVars._alertError(err.error?.error ?? "Something went wrong! Please try again.");
+            this.globalVars._alertError(message);
           }
         );
     });
@@ -344,9 +347,10 @@ export class TwitterSyncSettingsComponent implements OnDestroy {
           });
         }
       },
-      (err) => {
-        this.tracking.log("twitter-sync : get-subscription-error", { error: err.error?.error });
-        this.globalVars._alertError(err.error?.error ?? "Something went wrong! Try reloading the page.");
+      (e) => {
+        const message = e?.error?.error ?? "Whoops, something went wrong! Please try again.";
+        this.tracking.log("twitter-sync : get-subscription-error", { error: message });
+        this.globalVars._alertError(message);
         this.setuSubscriptions = undefined;
         this.derivedKeyStatus = undefined;
       }

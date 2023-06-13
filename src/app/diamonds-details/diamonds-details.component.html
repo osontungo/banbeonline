@@ -1,20 +1,29 @@
 <div class="diamonds-modal-container">
   <div *ngIf="!globalVars.isMobile()" class="w-100 d-flex align-items-center border-bottom fc-secondary">
     <div class="p-15px fs-25px font-weight-bold d-flex align-items-center">
-      <div class="fs-17px font-weight-bold">{{ 'diamonds_pages.diamonds_given_by' | transloco }}</div>
+      <div class="fs-17px font-weight-bold">{{ "diamonds_pages.diamonds_given_by" | transloco }}</div>
     </div>
   </div>
 
   <div class="flex-grow-1">
-    <div #uiScroll *uiScroll="let diamond of datasource">
-      <simple-profile-card
-        [profile]="diamond.DiamondSenderProfile"
-        [diamondLevel]="diamond.DiamondLevel"
-      ></simple-profile-card>
+    <div
+      [ngClass]="{
+        'details-modal__list-wrapper': !globalVars.isMobile()
+      }"
+    >
+      <div #uiScroll *uiScroll="let diamond of datasource">
+        <simple-profile-card
+          [profile]="diamond.DiamondSenderProfile"
+          [diamondLevel]="diamond.DiamondLevel"
+        ></simple-profile-card>
+      </div>
     </div>
   </div>
   <!-- Spacer for PWA Apps -->
   <div *ngIf="globalVars.windowIsPWA() && globalVars.isMobile()" class="mt-20px"></div>
   <div *ngIf="globalVars.isMobile()" class="global__bottom-bar-mobile-height"></div>
-  <simple-center-loader *ngIf="loading"></simple-center-loader>
+  <simple-center-loader
+    *ngIf="datasource.adapter.isLoading && datasource.adapter.itemsCount === 0"
+    class="x-and-y-centerized"
+  ></simple-center-loader>
 </div>

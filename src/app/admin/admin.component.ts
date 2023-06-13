@@ -5,8 +5,9 @@ import * as _ from "lodash";
 import { sprintf } from "sprintf-js";
 import { environment } from "src/environments/environment";
 import { SwalHelper } from "../../lib/helpers/swal-helper";
-import { BackendApiService, ProfileEntryResponse } from "../backend-api.service";
+import { BackendApiService } from "../backend-api.service";
 import { GlobalVarsService } from "../global-vars.service";
+import { ProfileEntryResponse } from "deso-protocol";
 
 class Messages {
   static INCORRECT_PASSWORD = `The password you entered was incorrect.`;
@@ -731,8 +732,9 @@ export class AdminComponent implements OnInit {
           this.usernameMap = res.PubKeyToUsername;
           this.userMetadataMapLength = Object.keys(this.userMetadataMap).length;
         },
-        (err) => {
-          this.globalVars._alertError(JSON.stringify(err.error));
+        (e) => {
+          console.error(e);
+          this.globalVars._alertError(JSON.stringify(e));
         }
       )
       .add(() => {
@@ -747,8 +749,9 @@ export class AdminComponent implements OnInit {
       () => {
         this.removingNilPosts = false;
       },
-      (err) => {
-        this.globalVars._alertError(JSON.stringify(err.error));
+      (e) => {
+        console.error(e);
+        this.globalVars._alertError(JSON.stringify(e));
       }
     );
   }
@@ -813,8 +816,9 @@ export class AdminComponent implements OnInit {
             this.updateProfileSuccessType = "";
           }, 1000);
         },
-        (err) => {
-          this.globalVars._alertError(JSON.stringify(err.error));
+        (e) => {
+          console.error(e);
+          this.globalVars._alertError(JSON.stringify(e));
         }
       )
       .add(() => {
@@ -853,8 +857,9 @@ export class AdminComponent implements OnInit {
             this.whitelistUpdateSuccess = false;
           }, 1000);
         },
-        (err) => {
-          this.globalVars._alertError(JSON.stringify(err.error));
+        (e) => {
+          console.error(e);
+          this.globalVars._alertError(JSON.stringify(e));
         }
       )
       .add(() => {
@@ -885,8 +890,9 @@ export class AdminComponent implements OnInit {
             this.unwhitelistUpdateSuccess = false;
           }, 1000);
         },
-        (err) => {
-          this.globalVars._alertError(JSON.stringify(err.error));
+        (e) => {
+          console.error(e);
+          this.globalVars._alertError(JSON.stringify(e));
         }
       )
       .add(() => {
@@ -917,8 +923,9 @@ export class AdminComponent implements OnInit {
             this.updateProfileSuccessType = "";
           }, 1000);
         },
-        (err) => {
-          this.globalVars._alertError(JSON.stringify(err.error));
+        (e) => {
+          console.error(e);
+          this.globalVars._alertError(JSON.stringify(e));
         }
       )
       .add(() => {
@@ -926,11 +933,10 @@ export class AdminComponent implements OnInit {
       });
   }
 
-  extractError(err: any): string {
-    if (err.error != null && err.error.error != null) {
-      // Is it obvious yet that I'm not a frontend gal?
-      // TODO: Error handling between BE and FE needs a major redesign.
-      const rawError = err.error.error;
+  extractError(e: any): string {
+    const rawError = e.toString();
+
+    if (rawError) {
       if (rawError.includes("password")) {
         return Messages.INCORRECT_PASSWORD;
       } else if (rawError.includes("not sufficient")) {
@@ -946,12 +952,12 @@ export class AdminComponent implements OnInit {
         return rawError;
       }
     }
-    if (err.status != null && err.status !== 200) {
+    if (e?.status && e?.status !== 200) {
       return Messages.CONNECTION_PROBLEM;
     }
     // If we get here we have no idea what went wrong so just alert the
     // errorString.
-    return JSON.stringify(err);
+    return JSON.stringify(e);
   }
 
   updateGlobalParamUSDPerBitcoin() {
@@ -1300,8 +1306,6 @@ export class AdminComponent implements OnInit {
       if (res.isConfirmed) {
         this.submittingUpdateUsername = true;
         const creatorCoinBasisPoints = this.userProfileEntryResponseToUpdate?.CoinEntry?.CreatorBasisPoints || 10 * 100;
-        const stakeMultipleBasisPoints =
-          this.userProfileEntryResponseToUpdate?.StakeMultipleBasisPoints || 1.25 * 100 * 100;
         return this.backendApi
           .UpdateProfile(
             this.globalVars.loggedInUser?.PublicKeyBase58Check /*UpdaterPublicKeyBase58Check*/,
@@ -1311,7 +1315,7 @@ export class AdminComponent implements OnInit {
             "" /*NewDescription*/,
             "" /*NewProfilePic*/,
             creatorCoinBasisPoints /*NewCreatorBasisPoints*/,
-            stakeMultipleBasisPoints /*NewStakeMultipleBasisPoints*/,
+            1.25 * 100 * 100 /*NewStakeMultipleBasisPoints*/,
             false /*IsHidden*/
           )
           .subscribe(
@@ -1321,8 +1325,9 @@ export class AdminComponent implements OnInit {
                 this.updateProfileSuccessType = "";
               }, 1000);
             },
-            (err) => {
-              this.globalVars._alertError(JSON.stringify(err.error));
+            (e) => {
+              console.error(e);
+              this.globalVars._alertError(JSON.stringify(e));
             }
           )
           .add(() => {

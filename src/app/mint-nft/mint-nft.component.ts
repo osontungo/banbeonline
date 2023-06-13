@@ -1,11 +1,12 @@
 import { Location } from "@angular/common";
 import { Component } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
+import { ProfileEntryResponse } from "deso-protocol";
 import { isNumber } from "lodash";
 import { ToastrService } from "ngx-toastr";
 import { TrackingService } from "src/app/tracking.service";
 import { SwalHelper } from "../../lib/helpers/swal-helper";
-import { BackendApiService, ProfileEntryResponse } from "../backend-api.service";
+import { BackendApiService } from "../backend-api.service";
 import { GlobalVarsService } from "../global-vars.service";
 
 type AdditionalRoyalty = {
@@ -346,10 +347,13 @@ export class MintNftComponent {
             buyNowPriceDesoNanos,
           });
           this.globalVars.updateEverything(res.TxnHashHex, this._mintNFTSuccess, this._mintNFTFailure, this);
+          this.router.navigate(["/" + this.globalVars.RouteNames.NFT + "/" + this.postHashHex]);
         },
-        (err) => {
-          this.globalVars._alertError(err.error.error);
-          this.tracking.log("nft : create", { error: err.error.error });
+        (e) => {
+          console.error(e);
+          const message = e.toString();
+          this.globalVars._alertError(message);
+          this.tracking.log("nft : create", { error: message });
           this.minting = false;
         }
       );

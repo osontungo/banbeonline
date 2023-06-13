@@ -7,8 +7,9 @@ import {
   encrypt,
   getBulkAccessGroups,
   identity,
-  ProfileEntryResponse,
+  ProfileEntryResponse
 } from "deso-protocol";
+import { Identity } from "deso-protocol/src/identity/identity";
 import { BsModalRef } from "ngx-bootstrap/modal";
 import { GlobalVarsService } from "../../global-vars.service";
 
@@ -113,14 +114,21 @@ export class CreateAccessGroupComponent {
         })
       );
 
-      await addAccessGroupMembers({
-        AccessGroupOwnerPublicKeyBase58Check: loggedInUserPublicKey,
-        AccessGroupKeyName: groupName,
-        AccessGroupMemberList: groupMemberList,
-        MinFeeRateNanosPerKB: 1000,
-      });
+      await addAccessGroupMembers(
+        {
+          AccessGroupOwnerPublicKeyBase58Check: loggedInUserPublicKey,
+          AccessGroupKeyName: groupName,
+          AccessGroupMemberList: groupMemberList,
+          MinFeeRateNanosPerKB: 1000,
+        },
+        {
+          // We don't need to check permissions here because we already checked when we made the call to
+          // create the access group.
+          checkPermissions: false,
+        }
+      );
 
-      const identityState = identity.snapshot();
+      const identityState = (identity as Identity<Storage>).snapshot();
       const TimestampNanos = Date.now() * 1e6;
       this.afterAccessGroupCreated?.({
         ChatType: ChatType.GROUPCHAT,
@@ -149,7 +157,8 @@ export class CreateAccessGroupComponent {
       });
       this.bsModalRef.hide();
     } catch (e) {
-      this.globalVars._alertError(e?.error?.error ?? e?.message);
+      console.error(e);
+      this.globalVars._alertError(e.toString());
       return;
     }
 

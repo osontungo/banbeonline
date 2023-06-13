@@ -1,7 +1,5 @@
-import { ApplicationRef, ChangeDetectorRef, Component, OnInit, Input, ViewEncapsulation } from "@angular/core";
-import { AnimationOptions } from "ngx-lottie";
+import { Component, Input, OnInit } from "@angular/core";
 import { environment } from "src/environments/environment";
-import { BackendApiService } from "../backend-api.service";
 
 @Component({
   selector: "simple-center-loader",
@@ -20,9 +18,6 @@ export class SimpleCenterLoaderComponent implements OnInit {
 
   isDark: boolean = false;
 
-  options: AnimationOptions = {
-    path: "./assets/img/cloutLoader.json",
-  };
   constructor() {}
 
   ngOnInit() {
@@ -38,7 +33,9 @@ export class SimpleCenterLoaderComponent implements OnInit {
     try {
       xhr.open("HEAD", urlToFile, false);
       xhr.send();
-    } catch (error) {}
+    } catch (e) {
+      console.error(e);
+    }
 
     if (xhr.status === 404) {
       return false;

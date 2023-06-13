@@ -7,8 +7,9 @@ import { BsModalService } from "ngx-bootstrap/modal";
 import { ToastrService } from "ngx-toastr";
 import { TrackingService } from "src/app/tracking.service";
 import { SwalHelper } from "../../lib/helpers/swal-helper";
-import { BackendApiService, NFTEntryResponse, PostEntryResponse } from "../backend-api.service";
+import { BackendApiService } from "../backend-api.service";
 import { GlobalVarsService } from "../global-vars.service";
+import { NFTEntryResponse, PostEntryResponse } from "deso-protocol";
 
 @Component({
   selector: "nft-burn",
@@ -117,11 +118,9 @@ export class NftBurnComponent implements OnInit {
                 positionClass: "toast-bottom-center",
               });
             },
-            (err) => {
-              console.error(err);
-              this.tracking.log("nft : burn", {
-                error: err.error?.error,
-              });
+            (e) => {
+              console.error(e);
+              this.tracking.log("nft : burn", { error: e.toString() });
             }
           )
           .add(() => {

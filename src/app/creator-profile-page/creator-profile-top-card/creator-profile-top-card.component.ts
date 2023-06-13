@@ -239,6 +239,6 @@ export class CreatorProfileTopCardComponent implements OnInit, OnDestroy {
   }
 
   getUserDetailsLink() {
-    return `https://www.openprosper.com/u/${this.profile?.Username}`;
+    return `https://wallet.deso.com/?user=${this.profile?.Username}&tab=activity`;
   }
 }

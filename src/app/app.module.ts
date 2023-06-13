@@ -10,8 +10,6 @@ import { MatSelectModule } from "@angular/material/select";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import player from "lottie-web";
-import { AnimateOnScrollModule } from "ng2-animate-on-scroll";
 import { AlertModule } from "ngx-bootstrap/alert";
 import { CollapseModule } from "ngx-bootstrap/collapse";
 import { BsDatepickerModule } from "ngx-bootstrap/datepicker";
@@ -22,7 +20,6 @@ import { ProgressbarModule } from "ngx-bootstrap/progressbar";
 import { RatingModule } from "ngx-bootstrap/rating";
 import { TimepickerModule } from "ngx-bootstrap/timepicker";
 import { TooltipModule } from "ngx-bootstrap/tooltip";
-import { LottieModule } from "ngx-lottie";
 import { QuillModule } from "ngx-quill";
 import { ToastrModule } from "ngx-toastr";
 import { UiScrollModule } from "ngx-ui-scroll";
@@ -106,6 +103,9 @@ import { LeftBarComponent } from "./left-bar/left-bar.component";
 import { LinkPreviewComponent } from "./link-preview/link-preview.component";
 import { LoggedOutEmptyStateComponent } from "./logged-out-empty-state/logged-out-empty-state.component";
 // Modular Themes for DeSo by Carsen Klock @carsenk
+import { FeedPostImageModalComponent } from "./feed/feed-post-image-modal/feed-post-image-modal.component";
+import { IdentityMigrationModalComponent } from "./identity-migration-modal/identity-migration-modal.component";
+import { InstallPwaComponent } from "./install-pwa/install-pwa.component";
 import { ManageFollowsPageComponent } from "./manage-follows-page/manage-follows-page.component";
 import { ManageFollowsComponent } from "./manage-follows-page/manage-follows/manage-follows.component";
 import { CreateAccessGroupComponent } from "./messages-page/create-access-group/create-access-group.component";
@@ -220,15 +220,12 @@ import { WalletPageComponent } from "./wallet/wallet-page/wallet-page.component"
 import { WalletWidgetComponent } from "./wallet/wallet-widget/wallet-widget.component";
 import { WalletComponent } from "./wallet/wallet.component";
 import { WelcomeModalComponent } from "./welcome-modal/welcome-modal.component";
-import { IdentityMigrationModalComponent } from './identity-migration-modal/identity-migration-modal.component';
+import { ManageDraftsModalComponent } from "./create-long-post-page/manage-drafts-modal/manage-drafts-modal.component";
+import { DraftsTableComponent } from "./create-long-post-page/drafts-table/drafts-table.component";
 
 const lightTheme: Theme = { key: "light", name: "Light Theme" };
 const darkTheme: Theme = { key: "dark", name: "Dark Theme" };
 const icydarkTheme: Theme = { key: "icydark", name: "Icy Dark Theme" };
-
-export function playerFactory() {
-  return player;
-}
 
 @NgModule({
   declarations: [
@@ -423,6 +420,10 @@ export function playerFactory() {
     PollPageComponent,
     PollModalComponent,
     IdentityMigrationModalComponent,
+    InstallPwaComponent,
+    FeedPostImageModalComponent,
+    ManageDraftsModalComponent,
+    DraftsTableComponent,
   ],
   imports: [
     BrowserModule,
@@ -438,7 +439,6 @@ export function playerFactory() {
     MatTooltipModule,
     TextFieldModule,
     UiScrollModule,
-    AnimateOnScrollModule.forRoot(),
     ToastrModule.forRoot(),
     BsDropdownModule.forRoot(),
     PopoverModule.forRoot(),
@@ -459,8 +459,6 @@ export function playerFactory() {
         (window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark"),
     }),
     IconsModule,
-    LottieModule,
-    LottieModule.forRoot({ player: playerFactory }),
     ScrollingModule,
     TranslocoRootModule,
   ],

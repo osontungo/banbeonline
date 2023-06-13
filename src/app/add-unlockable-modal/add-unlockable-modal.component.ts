@@ -5,8 +5,9 @@ import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 import { ToastrService } from "ngx-toastr";
 import { of } from "rxjs";
 import { concatMap, last, map } from "rxjs/operators";
-import { BackendApiService, NFTBidEntryResponse, NFTEntryResponse, PostEntryResponse } from "../backend-api.service";
+import { BackendApiService } from "../backend-api.service";
 import { GlobalVarsService } from "../global-vars.service";
+import { NFTEntryResponse, PostEntryResponse, NFTBidEntryResponse } from "deso-protocol";
 
 @Component({
   selector: "add-unlockable-modal",
@@ -79,7 +80,7 @@ export class AddUnlockableModalComponent implements OnInit {
         },
         (err) => {
           console.error(err);
-          this.globalVars._alertError(this.backendApi.parseMessageError(err));
+          this.globalVars._alertError(this.backendApi.parseErrorMessage(err));
         }
       )
       .add(() => {

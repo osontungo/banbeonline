@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
+import { isNil } from "lodash";
 import { IAdapter, IDatasource } from "ngx-ui-scroll";
 import { BackendApiService } from "../backend-api.service";
 import { GlobalVarsService } from "../global-vars.service";
@@ -13,7 +14,6 @@ export class RepostsDetailsComponent implements OnInit {
   @Input() postHashHex: string;
   @Input() bsModalRef;
   diamonds = [];
-  loading = false;
   errorLoading = false;
 
   constructor(
@@ -24,7 +24,6 @@ export class RepostsDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loading = true;
     if (!this.postHashHex) {
       this.postHashHex = this.route.snapshot.params.postHashHex;
     }
@@ -37,10 +36,9 @@ export class RepostsDetailsComponent implements OnInit {
 
   getPage = (page: number) => {
     // After we have filled the lastPage, do not honor any more requests.
-    if (this.lastPage != null && page > this.lastPage) {
+    if (!isNil(this.lastPage) && page > this.lastPage) {
       return [];
     }
-    this.loading = true;
 
     return this.backendApi
       .GetRepostsForPost(
@@ -62,8 +60,6 @@ export class RepostsDetailsComponent implements OnInit {
             this.lastPage = page;
           }
 
-          this.loading = false;
-
           // Return the page.
           return repostersPage;
         },
@@ -79,6 +75,6 @@ export class RepostsDetailsComponent implements OnInit {
     });
   }
 
-  infiniteScroller: InfiniteScroller = new InfiniteScroller(this.pageSize, this.getPage, false);
+  infiniteScroller: InfiniteScroller = new InfiniteScroller(this.pageSize, this.getPage, this.globalVars.isMobile());
   datasource: IDatasource<IAdapter<any>> = this.infiniteScroller.getDatasource();
 }

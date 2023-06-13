@@ -98,8 +98,8 @@ export class MessageThreadComponent implements OnChanges, OnDestroy {
             setTimeout(() => this.scrollToMostRecentMessage(), 0);
           })
           .catch((e) => {
-            this.globalVars._alertError(e?.error?.error ?? e.message);
             console.error(e);
+            this.globalVars._alertError(e.toString());
           })
           .finally(() => {
             this.loading = false;
@@ -117,8 +117,8 @@ export class MessageThreadComponent implements OnChanges, OnDestroy {
       throw new Error("Cannot load messages without an existing thread.");
     }
 
-    const startTimestampNanosString = this.threadMessages[this.threadMessages.length - 1]?.MessageInfo
-      ?.TimestampNanosString;
+    const startTimestampNanosString =
+      this.threadMessages[this.threadMessages.length - 1]?.MessageInfo?.TimestampNanosString;
 
     switch (this.threadHead.ChatType) {
       case ChatType.DM:
@@ -135,8 +135,9 @@ export class MessageThreadComponent implements OnChanges, OnDestroy {
           .then((thread) => {
             return Promise.all(thread.ThreadMessages.map((message) => identity.decryptMessage(message, [])));
           })
-          .catch((err) => {
-            this.globalVars._alertError(err.error.error);
+          .catch((e) => {
+            console.error(e);
+            this.globalVars._alertError(e.toString());
             return [];
           });
       case ChatType.GROUPCHAT:
@@ -152,8 +153,9 @@ export class MessageThreadComponent implements OnChanges, OnDestroy {
               thread.GroupChatMessages.map((message) => identity.decryptMessage(message, this.accessGroups))
             );
           })
-          .catch((err) => {
-            this.globalVars._alertError(err.error.error);
+          .catch((e) => {
+            console.error(e);
+            this.globalVars._alertError(e.toString());
             return [];
           });
       default:
@@ -222,12 +224,11 @@ export class MessageThreadComponent implements OnChanges, OnDestroy {
         Message,
         AccessGroup: this.threadHead.RecipientInfo.AccessGroupKeyName,
       });
-    } catch (e) {
-      const rawError = e?.error?.error ?? e.message;
-      this.globalVars._alertError("Problem sending message: " + rawError);
+    } catch (e: any) {
+      console.error(e);
+      this.globalVars._alertError("Problem sending message: " + e.toString());
       // If we failed, remove the manually added message from the UI.
       this.threadMessages.pop();
-      console.error(e);
     }
 
     this.isSendingMessage = false;

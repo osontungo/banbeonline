@@ -13,7 +13,7 @@ import {
 } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { TranslocoService } from "@ngneat/transloco";
-import { pollForVideoReady, uploadVideo } from "deso-protocol";
+import { pollForVideoReady, PostEntryResponse, ProfileEntryResponse, uploadVideo } from "deso-protocol";
 import * as _ from "lodash";
 import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
 import { GlobalVarsService } from "src/app/global-vars.service";
@@ -23,14 +23,12 @@ import { environment } from "../../../environments/environment";
 import { EmbedUrlParserService } from "../../../lib/services/embed-url-parser-service/embed-url-parser-service";
 import { Mentionify } from "../../../lib/services/mention-autofill/mentionify";
 import { SharedDialogs } from "../../../lib/shared-dialogs";
-import { BackendApiService, PostEntryResponse, ProfileEntryResponse } from "../../backend-api.service";
-
-import Timer = NodeJS.Timer;
+import { BackendApiService } from "../../backend-api.service";
 import {
   AbstractControl,
-  FormArray,
-  FormControl,
-  FormGroup,
+  UntypedFormArray,
+  UntypedFormControl,
+  UntypedFormGroup,
   ValidationErrors,
   ValidatorFn,
   Validators,
@@ -72,8 +70,8 @@ class PostModel {
   isUploadingMedia = false;
   isProcessingMedia = false;
   editPostHashHex = "";
-  pollForm: FormGroup = new FormGroup({
-    options: new FormArray([]),
+  pollForm: UntypedFormGroup = new UntypedFormGroup({
+    options: new UntypedFormArray([]),
   });
   pollType: PollWeightType = PollWeightType.unweighted;
   pollWeightTokenProfile: ProfileEntryResponse | null = null;
@@ -140,14 +138,12 @@ export class FeedCreatePostComponent implements OnInit {
   currentPostModel = new PostModel();
   videoUploadPercentage: string | null = null;
   postSubmitPercentage: string | null = null;
-  videoStreamInterval: Timer | null = null;
-  maxPostLength = GlobalVarsService.MAX_POST_LENGTH;
   globalVars: GlobalVarsService;
   submittedPost: PostEntryResponse | null = null;
   embedUrlParserService = EmbedUrlParserService;
 
   readonly REQUIRED_POLL_OPTIONS: number = 2;
-  readonly MAX_POLL_OPTIONS: number = 5;
+  readonly MAX_POLL_OPTIONS: number = 20;
   readonly MAX_POLL_CHARACTERS: number = 50;
   readonly POLL_WEIGHT_TYPE_LABELS = {
     [PollWeightType.unweighted]: "Simple poll",
@@ -197,7 +193,7 @@ export class FeedCreatePostComponent implements OnInit {
   resolveFn = (prefix: string) => this.getUsersFromPrefix(prefix);
 
   get pollOptions() {
-    return this.currentPostModel.pollForm.controls.options as FormArray;
+    return this.currentPostModel.pollForm.controls.options as UntypedFormArray;
   }
 
   async getUsersFromPrefix(prefix: string): Promise<ProfileEntryResponse[]> {
@@ -433,8 +429,8 @@ export class FeedCreatePostComponent implements OnInit {
 
         this.submittedPost = null;
       })
-      .catch((err) => {
-        const parsedError = this.backendApi.parsePostError(err);
+      .catch((e) => {
+        const parsedError = this.backendApi.parseErrorMessage(e);
         this.globalVars._alertError(parsedError);
         this.tracking.log(`post : ${action}`, {
           error: parsedError,
@@ -514,14 +510,15 @@ export class FeedCreatePostComponent implements OnInit {
         this.currentPostModel.postImageSrc = res.ImageURL;
         this.currentPostModel.postVideoSrc = "";
       })
-      .catch((err) => {
-        this.globalVars._alertError(JSON.stringify(err.error.error));
+      .catch((e) => {
+        console.error(e);
+        this.globalVars._alertError(e.toString());
       });
   }
 
   async uploadVideo(file: File): Promise<any> {
-    if (file.size > 65 * 1024 * 1024) {
-      this.globalVars._alertError("File is too large. Please choose a file less than 65MB");
+    if (file.size > 250 * 1024 * 1024) {
+      this.globalVars._alertError("File is too large. Please choose a file less than 250MB");
       return;
     }
     this.currentPostModel.isUploadingMedia = true;
@@ -542,9 +539,10 @@ export class FeedCreatePostComponent implements OnInit {
       this.videoUploadPercentage = null;
 
       return pollForVideoReady(asset.id);
-    } catch (e) {
+    } catch (e: any) {
+      console.error(e);
       this.currentPostModel.postVideoSrc = "";
-      this.globalVars._alertError(JSON.stringify(e.error.error));
+      this.globalVars._alertError(e.toString());
       return;
     }
   }
@@ -617,7 +615,7 @@ export class FeedCreatePostComponent implements OnInit {
     if (required) {
       validators.push(Validators.required);
     }
-    return new FormControl("", validators);
+    return new UntypedFormControl("", validators);
   }
 
   togglePoll() {

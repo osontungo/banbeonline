@@ -6,8 +6,9 @@ import { BsModalRef } from "ngx-bootstrap/modal";
 import { of } from "rxjs";
 import { concatMap, last, map } from "rxjs/operators";
 import { TrackingService } from "src/app/tracking.service";
-import { BackendApiService, NFTEntryResponse, PostEntryResponse } from "../backend-api.service";
+import { BackendApiService } from "../backend-api.service";
 import { GlobalVarsService } from "../global-vars.service";
+import { NFTEntryResponse, PostEntryResponse } from "deso-protocol";
 
 @Component({
   selector: "create-nft-auction",
@@ -153,9 +154,9 @@ export class CreateNftAuctionModalComponent implements OnInit {
           this.bsModalRef.hide();
           this.router.navigate(["/" + this.globalVars.RouteNames.NFT + "/" + this.post.PostHashHex]);
         },
-        (err) => {
-          console.error(err);
-          const parsedError = this.backendApi.parseMessageError(err);
+        (e) => {
+          console.error(e);
+          const parsedError = this.backendApi.parseErrorMessage(e);
           this.globalVars._alertError(parsedError);
           this.tracking.log("nft-auction : create", { error: parsedError });
         }
