@@ -31,10 +31,14 @@ export class BuyDeSoMegaSwapComponent implements OnInit {
       this.theme = "dark-gray";
     }
 
+    if (this.theme === "light-white") {
+      this.theme = "default";
+    }
+
     this.iframeURL = this.sanitizer.bypassSecurityTrustResourceUrl(
       [
         environment.megaswapURL,
-        "/#/iframe/v1?",
+        "/widget?",
         `network=${environment.production ? "mainnet" : "testnet"}`,
         `&theme=${this.theme}`,
         `&depositTicker=${this.depositTicker ?? "BTC"}`,
