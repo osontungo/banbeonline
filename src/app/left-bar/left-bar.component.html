@@ -38,12 +38,6 @@
           [iconName]="'users'"
         ></left-bar-button>
         <left-bar-button
-          *ngIf="this.globalVars.loggedInUser"
-          [link]="'/' + globalVars.RouteNames.BUY_DESO"
-          [buttonLabel]="t('left_bar.buy_deso')"
-          [iconName]="'dollar-sign'"
-        ></left-bar-button>
-        <left-bar-button
           [hasNotifications]="true"
           [notificationType]="'messages'"
           [link]="'/' + globalVars.RouteNames.INBOX_PREFIX"
