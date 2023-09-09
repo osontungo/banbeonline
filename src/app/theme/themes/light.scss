@@ -1,39 +1,39 @@
-// DeSo.Diamonds Theme
-// By:
+/* DeSo.Diamonds Theme with Custom Color Palette */
 .light[app-theme] {
-    --background-secondary: #38220f;
-    --tile-bg: #38220f;
-    --tile-secondary-bg: #111;
-    --nft-section-bg: #111;
-    --text-secondary: #bbbbbb;
-    --text-muted: #999;
-    --text-inverted: #202020;
-    --text-inverted-muted: #363636;
-    --highlight: #00d9ff;
-    --highlight-secondary: #E5F2FF;
-    --error: #FF6939;
-    --error-light: #FFECE7;
-    --success: #2CC99A;
+    --background-secondary: #007BFF; /* Ana arka plan rengi */
+    --tile-bg: #007BFF; /* Karo arka plan rengi */
+    --tile-secondary-bg: #F8F9FA; /* İkincil karo arka plan rengi */
+    --nft-section-bg: #F8F9FA; /* NFT bölümü arka plan rengi */
+    --text-secondary: #333333; /* İkincil metin rengi */
+    --text-muted: #666666; /* Sönük metin rengi */
+    --text-inverted: #FFFFFF; /* Ters metin rengi */
+    --text-inverted-muted: #CCCCCC; /* Ters sönük metin rengi */
+    --highlight: #FF4500; /* Vurgu rengi */
+    --highlight-secondary: #FFD700; /* İkincil vurgu rengi */
+    --error: #FF0000; /* Hata rengi */
+    --error-light: #FFECE7; /* Hafif hata rengi */
+    --success: #28A745; /* Başarı rengi */
 
-    --background: #38220f;
-    --text: #EFF3F8;
-    --grey: #999;
-    --secalt: #111;
-    --textalt: #eee;
-    --norm: #eee;
-    --formbg: #111;
-    --link: #00d9ff;
-    --hover: #72b6ff;
-    --border: #222;
-    --borderheavy: #4f4f4f;
-    --mborder: #484848;
-    --filter: invert(98%) sepia(1%) saturate(264%) hue-rotate(181deg) brightness(116%) contrast(100%);
-    --unread: #1a293f;
-    --topbar: #2E2E2E;
-    --cblue: #0058F7;
-    --cred: #fe3537;
-    --cgreen: #19B028;
-    --button: #0058F7;
-    --loading: #999;
-    --glow: #f50057;
+    /* Diğer Özel Renkler */
+    --background: #007BFF; /* Ana arka plan rengi */
+    --text: #FFFFFF; /* Ana metin rengi */
+    --grey: #CCCCCC; /* Gri rengi */
+    --secalt: #F8F9FA; /* İkincil alternatif arka plan rengi */
+    --textalt: #EEEEEE; /* Alternatif metin rengi */
+    --norm: #EEEEEE; /* Normal renk */
+    --formbg: #F8F9FA; /* Form alanı arka plan rengi */
+    --link: #007BFF; /* Bağlantı rengi */
+    --hover: #72b6ff; /* Üzerine gelindiğinde rengi */
+    --border: #DDDDDD; /* Kenarlık rengi */
+    --borderheavy: #4f4f4f; /* Kalın kenarlık rengi */
+    --mborder: #484848; /* Ek kenarlık rengi */
+    --filter: invert(98%) sepia(1%) saturate(264%) hue-rotate(181deg) brightness(116%) contrast(100%); /* Filtre rengi */
+    --unread: #1a293f; /* Okunmamış içerik rengi */
+    --topbar: #2E2E2E; /* Üst çubuk rengi */
+    --cblue: #0058F7; /* Mavi renk */
+    --cred: #fe3537; /* Kırmızı renk */
+    --cgreen: #19B028; /* Yeşil renk */
+    --button: #007BFF; /* Buton rengi */
+    --loading: #CCCCCC; /* Yükleniyor rengi */
+    --glow: #f50057; /* Parlaklık rengi */
 }
