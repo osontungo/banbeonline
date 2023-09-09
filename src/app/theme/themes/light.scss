@@ -1,39 +1,41 @@
-// light Theme
+// Light Theme
 // By:
 .light[app-theme] {
-    --background-secondary: #000;
-    --tile-bg: #000;
-    --tile-secondary-bg: #111;
-    --nft-section-bg: #111;
-    --text-secondary: #bbbbbb;
-    --text-muted: #999;
-    --text-inverted: #202020;
-    --text-inverted-muted: #363636;
-    --highlight: #92b86b;
-    --highlight-secondary: #E5F2FF;
-    --error: #FF6939;
-    --error-light: #FFECE7;
-    --success: #2CC99A;
+  //
+  --background-secondary: #F0F3F3;
+  --tile-bg: #FFFFFF;
+  --tile-secondary-bg: #F4F6F6;
+  --nft-section-bg: #ebf5ff;
+  --text-secondary: #545656;
+  --text-muted: #8D8F8F;
+  --text-inverted: #F0F3F3;
+  --text-inverted-muted: #9B9E9F;
+  --highlight: #005BFF;
+  --highlight-secondary: #E5F2FF;
+  --error: #FF6939;
+  --error-light: #FFECE7;
+  --success: #00940f;
 
-    --background: #000;
-    --text: #EFF3F8;
-    --grey: #999;
-    --secalt: #111;
-    --textalt: #eee;
-    --norm: #eee;
-    --formbg: #111;
-    --link: #92b86b;
-    --hover: #42b16b;
-    --border: #222;
-    --borderheavy: #4f4f4f;
-    --mborder: #484848;
-    --filter: invert(98%) sepia(1%) saturate(264%) hue-rotate(181deg) brightness(116%) contrast(100%);
-    --unread: #1a293f;
-    --topbar: #2E2E2E;
-    --cblue: #42b16b;
-    --cred: #fe3537;
-    --cgreen: #19B028;
-    --button: #92b86b;
-    --loading: #999;
-    --glow: #f50057;
+  --background: #F7F9F9;
+  --text: #000;
+  --border: #DDD;
+  --borderheavy: #CAD6D7;
+
+
+  --grey: #555555;
+  --secalt: #eee;
+  --norm: #222;
+  --formbg: #FFFFFF;
+  --link: #005BFF;
+  --hover: #0056b3;
+  --mborder: #E5E5E5;
+  --filter: ;
+  --unread: #e7effe;
+  --topbar: #2e2e2e;
+  --cblue: #0058F7;
+  --cred: #fe3537;
+  --cgreen: #19B028;
+  --button: #0058F7;
+  --loading: #777777;
+  --glow: #00F9FC;
 }
