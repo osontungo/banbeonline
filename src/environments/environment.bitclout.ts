@@ -26,7 +26,7 @@ export const environment = {
   },
   megaswapURL: "https://heroswap.com",
   megaswapAPI: "https://heroswap.com",
-  megaswapAffiliateAddress: "BC1YLgTKfwSeHuNWtuqQmwduJM2QZ7ZQ9C7HFuLpyXuunUN7zTEr5WL",
+  megaswapAffiliateAddress: "BC1YLhZKe3TYBAceAkSKFC7Q45foofVgeAhxc2V2pJg7h32PcgJH5vq",
   openfundURL: "https://openfund.com",
   setuAPI: "https://web3setu.co.in",
 };
