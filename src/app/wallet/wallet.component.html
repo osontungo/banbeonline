@@ -107,6 +107,12 @@
         <button (click)="openSendDeSoModal()" class="btn btn-outline-secondary font-weight-bold wallet__action-button">
        {{ "wallet.send_deso" | transloco }}
         </button>
+        <button (click)="openBuyDeSoModal()" class="btn btn-primary font-weight-bold wallet__action-button">
+          {{ "wallet.buy_deso" | transloco }}
+        </button>
+        <button (click)="openCashOutModal('DESO')" class="btn btn-success font-weight-bold wallet__action-button">
+          {{ "wallet.cash_out" | transloco }}
+        </button>
       </div>
     </div>
     <!--Third row-->
