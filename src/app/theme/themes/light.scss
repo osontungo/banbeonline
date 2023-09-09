@@ -1,39 +1,39 @@
-/* DeSo.Diamonds Theme with Twitter-like Color Palette */
+// light Theme
+// By:
 .light[app-theme] {
-    --background-secondary: #1DA1F2; /* Ana arka plan rengi (Twitter mavi) */
-    --tile-bg: #1DA1F2; /* Karo arka plan rengi (Twitter mavi) */
-    --tile-secondary-bg: #FFFFFF; /* İkincil karo arka plan rengi (Beyaz) */
-    --nft-section-bg: #FFFFFF; /* NFT bölümü arka plan rengi (Beyaz) */
-    --text-secondary: #333333; /* İkincil metin rengi */
-    --text-muted: #666666; /* Sönük metin rengi */
-    --text-inverted: #FFFFFF; /* Ters metin rengi (Beyaz) */
-    --text-inverted-muted: #CCCCCC; /* Ters sönük metin rengi */
-    --highlight: #FFD700; /* Vurgu rengi (Sarı) */
-    --highlight-secondary: #FFD700; /* İkincil vurgu rengi (Sarı) */
-    --error: #FF0000; /* Hata rengi (Kırmızı) */
-    --error-light: #FFECE7; /* Hafif hata rengi */
-    --success: #28A745; /* Başarı rengi (Yeşil) */
+    --background-secondary: #1e2124;
+    --tile-bg: #000;
+    --tile-secondary-bg: #111;
+    --nft-section-bg: #111;
+    --text-secondary: #bbbbbb;
+    --text-muted: #999;
+    --text-inverted: #202020;
+    --text-inverted-muted: #363636;
+    --highlight: #00d9ff;
+    --highlight-secondary: #E5F2FF;
+    --error: #FF6939;
+    --error-light: #FFECE7;
+    --success: #2CC99A;
 
-    /* Diğer Özel Renkler */
-    --background: #1DA1F2; /* Ana arka plan rengi (Twitter mavi) */
-    --text: #FFFFFF; /* Ana metin rengi (Beyaz) */
-    --grey: #CCCCCC; /* Gri renk */
-    --secalt: #FFFFFF; /* İkincil alternatif arka plan rengi (Beyaz) */
-    --textalt: #EEEEEE; /* Alternatif metin rengi */
-    --norm: #EEEEEE; /* Normal renk */
-    --formbg: #FFFFFF; /* Form alanı arka plan rengi (Beyaz) */
-    --link: #1DA1F2; /* Bağlantı rengi (Twitter mavi) */
-    --hover: #72b6ff; /* Üzerine gelindiğinde rengi */
-    --border: #DDDDDD; /* Kenarlık rengi (Gri) */
-    --borderheavy: #4f4f4f; /* Kalın kenarlık rengi */
-    --mborder: #484848; /* Ek kenarlık rengi */
-    --filter: invert(98%) sepia(1%) saturate(264%) hue-rotate(181deg) brightness(116%) contrast(100%); /* Filtre rengi */
-    --unread: #1a293f; /* Okunmamış içerik rengi */
-    --topbar: #2E2E2E; /* Üst çubuk rengi */
-    --cblue: #0058F7; /* Mavi renk */
-    --cred: #fe3537; /* Kırmızı renk */
-    --cgreen: #19B028; /* Yeşil renk */
-    --button: #1DA1F2; /* Buton rengi (Twitter mavi) */
-    --loading: #CCCCCC; /* Yükleniyor rengi */
-    --glow: #f50057; /* Parlaklık rengi */
+    --background: #1e2124;
+    --text: #EFF3F8;
+    --grey: #999;
+    --secalt: #111;
+    --textalt: #eee;
+    --norm: #eee;
+    --formbg: #111;
+    --link: #00d9ff;
+    --hover: #72b6ff;
+    --border: #222;
+    --borderheavy: #4f4f4f;
+    --mborder: #484848;
+    --filter: invert(98%) sepia(1%) saturate(264%) hue-rotate(181deg) brightness(116%) contrast(100%);
+    --unread: #1a293f;
+    --topbar: #2E2E2E;
+    --cblue: #0058F7;
+    --cred: #fe3537;
+    --cgreen: #19B028;
+    --button: #0058F7;
+    --loading: #999;
+    --glow: #f50057;
 }
