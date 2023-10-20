@@ -1,0 +1,599 @@
+{
+  "Hot": "Tin Nóng",
+  "Posts": "Đăng bài",
+  "Creator Coin": "Tiền người sáng tạo",
+  "Diamonds": "BanBe.Online",
+  "NFTs": "NFTs",
+  "Given": "Cho",
+  "Received": "Nhận",
+  "add_unlockable_modal": {
+    "nft_contains_unlockable_content": "NFT này bao gồm nội dung có thể mở khóa. Điền vào dưới đây.",
+    "unlockable_text_placeholder": "Nhập URL, mã để đổi quà, liên kết, v.v ...",
+    "btn_selling_NFT": "NFTs đang bán",
+    "btn_add": "Thêm",
+    "soldcounter_of": "Của",
+    "soldcounter_sold": "bán"
+  },
+  "bid_placed_modal": {
+    "bid_successful": "Giá thầu của bạn đã thành công. Chúng tôi sẽ thông báo cho bạn khi phiên đấu giá kết thúc.",
+    "explore_showcase": "Khám phá Showcase"
+  },
+  "bottom_bar_mobile": {
+    "home": "Trang chủ",
+    "notifications": "Thông báo",
+    "messages": "Tin nhắn",
+    "wallet": "Ví tiền"
+  },
+  "buy_deso": {
+    "buy_deso": "Mua $DESO",
+    "step": "Bước",
+    "send_bitcoin": "Gửi Bitcoin đến địa chỉ này",
+    "send_eth": "Gửi ETH đến địa chỉ này",
+    "amount_desposited": "Số tiền gửi",
+    "loading": "Đang tải",
+    "minimum_deposit": "Tiền gửi tối thiểu hiện tại là",
+    "goto_next_step": "Đến bước tiếp theo",
+    "cancel": "Hủy bỏ",
+    "bitcoin_balance": "Số dư bitcoin",
+    "eth_balance": "Số dư Ethereum",
+    "deso_to_buy": "$DESO để mua",
+    "max": "Tối đa",
+    "bitcoin_to_swap": "Bitcoin để trao đổi",
+    "eth_to_swap": "Ethereum để trao đổi",
+    "bitcoin_network_fee": "Phí mạng Bitcoin Bitcoin",
+    "eth_network_fee": "Phí mạng Ethereum",
+    "total_bitcoin_to_swap": "Tổng Bitcoin để trao đổi",
+    "total_eth_to_swap": "Tổng ETH để trao đổi",
+    "back": "Quay lại",
+    "refresh": "Làm mới",
+    "copy": "Sao chép",
+    "buy_complete": "Mua hoàn thành",
+    "new_balance": "Số dư mới",
+    "buy_more_deso": "Mua thêm DESO",
+    "deso_explanation": "$\nDESO là một loại tiền điện tử giống như Bitcoin, chỉ có điều nó cung cấp năng lượng cho mạng xã hội phi tập trung đầu tiên.",
+    "how_to_get": "Làm cách nào để tôi nhận được $DESO?",
+    "create_anon_account": "Tạo một tài khoản ẩn danh",
+    "to_buy_deso_fast": "để mua $DESO trong chưa đầy một phút.",
+    "what_is_deso_for": "$DESO dùng để làm gì?",
+    "use_to_buysell_creatorcoins_0": "Bạn có thể sử dụng nó để mua và bán",
+    "use_to_buysell_creatorcoins_1": " ",
+    "creatorcoins": "tiền người sáng tạo",
+    "use_to_send_messages": "Bạn có thể sử dụng nó để gửi tin nhắn cho mọi người",
+    "use_to_post_0": "You can use it to",
+    "use_to_post_1": "of your own",
+    "submit_posts": "submit posts",
+    "buy_with_bc_anon": "You can buy it anonymously with Bitcoin in under a minute",
+    "blockchains_iphone_moment": "It's blockchain's \"iPhone moment.\"",
+    "exchange_amount": "Amount to exchange",
+    "receive_amount": "Amount you receive",
+    "country": "Quốc gia"
+  },
+  "change_account": {
+    "login": "Đăng nhập",
+    "signup": "Đăng ký",
+    "add_account": "Thêm tài khoản",
+    "logout": "Đăng xuất"
+  },
+  "comment_modal": {
+    "quoting": "Trích dẫn ",
+    "replying_to": "Trả lời "
+  },
+  "create_nft_auction_modal": {
+    "create_an_auction": "Tạo đấu giá",
+    "min_price": "Giá thấp nhất",
+    "optional": "(Không bắt buộc)",
+    "select_all": "Chọn tất cả",
+    "last_price": "Giá cuối cùng",
+    "create_auction": "Tạo phiên đấu giá",
+    "creating_auction": "Đang tạo phiên đấu giá",
+    "counter_of": "của",
+    "counter_auctions": "Phiên đấu giá được tạo"
+  },
+  "create_post": {
+    "create_post": "Tạo bài viết",
+    "create_a_post": "Tạo một bài viết",
+    "step": "Bước",
+    "skip": "Bỏ qua"
+  },
+  "creator_diamonds": {
+    "given": "Cho",
+    "received": "Nhận",
+    "username": "Tên người dùng",
+    "no_diamonds_0": "không có",
+    "no_diamonds_1": "có viên kim cương nào chưa",
+    "anonymous": "Vô danh"
+  },
+  "creator_profile_details": {
+    "profile_reserved": "Hồ sơ này được bảo lưu",
+    "not_joined_yet": "chưa tham gia DeSo.",
+    "are_you_on_twitter_0": "Bạn có phải",
+    "are_you_on_twitter_1": "trên Twitter? Để yêu cầu hồ sơ này:",
+    "create_new_key": "Tạo khóa công khai DeSo hoàn toàn mới.",
+    "tweet_key": "Tweet khóa công khai DeSo của bạn và gắn thẻ #deso.",
+    "public_key_note": "Lưu ý: Khóa chung mà bạn tweet sẽ được hoán đổi với khóa chung hiện được liên kết với hồ sơ này. Điều này cũng sẽ hoán đổi tất cả các đồng xu của người tạo. Vui lòng đảm bảo rằng khóa công khai mà bạn tweet không có bất kỳ đồng xu nào của người sáng tạo, nếu bạn không muốn chúng bị mất.",
+    "username_transferred": "Your username will be transferred within 48 hours.",
+    "you_blocked_0": "You have blocked",
+    "you_blocked_1": ".",
+    "unblock_0": "Unblock",
+    "unblock_1": "to see their posts.",
+    "coins_in_circulation": "Coins in circulation",
+    "total_usd_locked": "Total USD locked",
+    "usd_market_cap": "USD Market cap"
+  },
+  "creator_profile_holders": {
+    "noone_owns_0": "Không ai sở hữu",
+    "noone_owns_1": "xu chưa.",
+    "holders_of_0": "người nắm giữ",
+    "holders_of_1": "coin",
+    "username": "Tên người dùng",
+    "coins_held": "Tiền xu được giữ",
+    "market_value": "Giá trị thị trường",
+    "received": "Đã nhận",
+    "reserved": "Đã đặt trước",
+    "purchased": "Đã mua"
+  },
+  "creator_profile_nfts": {
+    "gallery": "Gallery",
+    "my_bids": "My Bids",
+    "for_sale": "For Sale",
+    "transferable": "Transferable",
+    "pending": "Pending Transfers",
+    "order_by": "Order by",
+    "no_nfts_for_sale": "No NFTs for sale right now.",
+    "on_platform_no_nfts": "is on the platform but doesn't have any NFTs for sale.",
+    "no_nfts_purchased": "No NFTs purchased yet.",
+    "no_nfts_acquired": "has not acquired any NFTs yet.",
+    "no_nfts_transferable": "No transferable NFTs right now.",
+    "no_nfts_transferable_yet": "has no transferable NFTs yet.",
+    "no_nfts_pending": "No pending NFTs right now.",
+    "no_nfts_pending_yet": "has no pending NFTs yet.",
+    "no_bids": "No bids yet.",
+    "no_bids_yet": "is on the platform but hasn't bid on NFTs yet.",
+    "highest": "Highest!",
+    "serial": "Serial",
+    "bid": "Bid",
+    "cancel": "Cancel"
+  },
+  "creator_profile_posts": {
+    "create_fipo": "Tạo bài viết đầu tiên của bạn.",
+    "on_platform_no_posts": "đã có trên nền tảng nhưng chưa được đăng."
+  },
+  "creator_profile_blog_posts": {
+    "create_fipo": "Tạo bài đăng blog đầu tiên của bạn.",
+    "on_platform_no_posts": "đã có trên nền tảng nhưng chưa được đăng."
+  },
+  "creator_profile_top_card": {
+    "coin_price": "Giá coin",
+    "message_user": "Nhắn tin",
+    "block": "Khoá",
+    "unblock": "Mở khoá",
+    "user": "Người dùng",
+    "report_user": "Báo cáo người dùng",
+    "remove": "Xoá bỏ",
+    "add": "Thêm",
+    "wellknown_creator": "User As Well Known Creator",
+    "upcoming_creator": "User As Up And Coming Creator",
+    "edit": "Sửa",
+    "buy": "Mua",
+    "followers": "Theo dõi",
+    "following": "Đang theo dõi"
+  },
+  "creators_leaderboard": {
+    "buy_coin": "Discover Creators",
+    "buy_coin_subtitle": "Tất cả những người sáng tạo đều có một Đồng tiền sáng tạo được liên kết với họ.",
+    "name": "Tên",
+    "price": "Giá"
+  },
+  "diamonds_pages": {
+    "diamonds_from": "Diamonds from",
+    "diamonds_given_by": "Diamonds Given By"
+  },
+  "direct_to_browser_modal": {
+    "tap_ellipsis": "1. Tap elipsis",
+    "select_safari": "2. Select Open in Browser",
+    "select_openwith": "2. Select Open with",
+    "select_browser": "3. Select browser"
+  },
+  "feed_create_post": {
+    "video_processing": "Video Processing In Progress",
+    "uploading": "Uploading:",
+    "complete": "Hoàn thành",
+    "multi_post_progress": "Submitting posts:",
+    "post": "Đăng bài",
+    "embed_image": "Link to Arweave image",
+    "embed_video": "Embed Youtube, Vimeo, TikTok, Giphy, Spotify, Mousai, or SoundCloud",
+    "quotes": {
+      "quote1": "Hãy tiếp tục, chúc tôi một ngày vui vẻ.",
+      "quote2": "Những thứ tạo nên giấc mơ.",
+      "quote3": "Làm được rồi mẹ ơi! Đỉnh cao của thế giới!",
+      "quote4": "Tôi sẽ quay lại.",
+      "quote5": "Mở cửa khoang khoang, HAL.",
+      "quote6": "Ai là người đầu tiên.",
+      "quote7": "Có gì thứ hai.",
+      "quote8": "Tôi cảm thấy cần - cần tốc độ!",
+      "quote9": "Tôi là vua của thế giới!",
+      "quote10": "Nếu bạn xây nó, họ sẽ đến.",
+      "quote11": "Đường? Nơi chúng ta đang đi chúng ta không cần đường",
+      "quote12": "Tới vô tận và hơn thế nữa!",
+      "quote13": "Cầu mong Thần lực ở bên bạn",
+      "quote14": "Tôi có cảm giác chúng ta không còn ở Kansas nữa",
+      "quote15": "E.T. điện thoại về nhà",
+      "quote16": "Tiểu học, Watson thân yêu của tôi",
+      "quote17": "Tôi sẽ đưa ra cho anh ấy một lời đề nghị mà anh ấy không thể từ chối.",
+      "quote18": "Những điều lớn lao đều có sự khởi đầu nhỏ bé."
+    },
+    "a11y_text": {
+      "embed_video": "Add a video embed link",
+      "embed_arweave": "Add an arweave image link",
+      "upload_video": "Upload a video file",
+      "upload_image": "Upload an image file",
+      "create_poll": "Create a poll",
+      "add_post": "Add another post",
+      "remove_post": "Remove this post"
+    }
+  },
+  "feed_post": {
+    "of": "of",
+    "from": "From",
+    "for_sale": "for sale",
+    "unlockable_content": "Unlockable content",
+    "last_price": "Last price",
+    "removed_by_author": "This post was removed by the author.",
+    "this_post_from": "This is a post from",
+    "who_you_have_blocked": "who you have blocked. Click here to visit their profile to unblock them.",
+    "reposted": "reposted",
+    "original_removed": "The original post was removed by its author.",
+    "buy": "Buy",
+    "replying_to": "replying to",
+    "whitelist": "Whitelist",
+    "whitelisted": "Whitelisted",
+    "in_hot_feed": "in Hot Feed",
+    "adding": "Adding...",
+    "removing": "Removing...",
+    "view": "View",
+    "multiplier": "Multiplier",
+    "repost": "Repost",
+    "quote_repost": "Quote Repost",
+    "like": "Like",
+    "reaction": "Reaction",
+    "diamond": "Diamond",
+    "place_a_bid": "Place a bid",
+    "accept_transfer": "Accept Tranfer",
+    "hide_unlockable": "Hide Unlockable",
+    "show_unlockable": "Show Unlockable"
+  },
+  "feed_post_dropdown": {
+    "new_post_multiplier": "New post multiplier:",
+    "update": "Update",
+    "updating": "Updating...",
+    "error_updating": "Error updating post multiplier.",
+    "updating_success": "Successfully updated post multiplier.",
+    "link_to": "Link to",
+    "share": "Share",
+    "create_nft": "Create NFT",
+    "put_on_sale": "Put On Sale",
+    "transfer_nft": "Transfer NFT",
+    "burn_nft": "Burn NFT",
+    "add_nft_to_drop": "Add NFT to drop",
+    "report_content": "Report Content",
+    "hide": "Hide",
+    "block_user": "Block User",
+    "add_multiplier": "Add Multiplier",
+    "add_to_feed": "Add To Feed",
+    "remove_from_feed": "Remove From Feed",
+    "pin_to_feed": "Pin To Feed",
+    "unpin_from_feed": "Unpin From Feed",
+    "edit": "Edit"
+  },
+  "feed_post_icon_row": {
+    "loading": "Loading...",
+    "hide": "Hide",
+    "repost": "Repost",
+    "quote": "Quote",
+    "give_diamond": "Give a diamond.",
+    "will_receive": "will receive the amount shown as a tip from you.",
+    "slide": "<- Slide ->",
+    "release_to_cancel": "Release To Cancel",
+    "slide_to_cancel": "Slide Down To Cancel - Release To Confirm"
+  },
+  "feed": {
+    "deso_price": "$DESO Price",
+    "usd_coin": "USD per coin",
+    "you_have_referral_0": "You have an unlimited ",
+    "you_have_referral_1": "referral link",
+    "find_people_in_hot": "Find more people to follow in the Hot feed",
+    "load_more": "Load More",
+    "loading": "Loading...",
+    "no_posts": "Chưa có bài viết nào",
+    "check_hot_0": "Kiểm tra nguồn cấp dữ liệu HOT",
+    "check_hot_1": "để tìm thêm người theo dõi"
+  },
+  "follow_button": {
+    "loading": "Đang tải...",
+    "follow": "Theo dõi",
+    "unfollow": "Bỏ theo dõi"
+  },
+  "get_starter_deso": {
+    "get_starter_deso": "Get Starter $DESO"
+  },
+  "jumio_status": {
+    "your_free": "your free",
+    "will_arive_in_a_minute": "will arrive in about a minute.",
+    "robot_check_failed": "Your robot check failed. Click here to try again.",
+    "click_here_to_get": "Click here to get",
+    "hide_banner": "Hide banner",
+    "hide_banner_message": "Do you want to hide the free money banner?",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "landing": {
+    "login": "Login",
+    "signup": "Create Account",
+    "signuptoday": "Create Account",
+    "settle": "The home for creators & communities",
+    "fora": "for a",
+    "diamonds": "BanbeOnline là ngôi nhà dành cho người sáng tạo và khán giả của họ để xây dựng các cộng đồng hấp dẫn xung quanh nội dung, ưu đãi và quyền sở hữu."
+  },
+  "left_bar": {
+    "home": "Trang chủ",
+    "buy_creators": "Khám phá",
+    "buy_deso": "Mua DESO",
+    "buy_deso2": "Mua $DESO",
+    "notifications": "Thông báo",
+    "messages": "Tin nhắn",
+    "my_profile": "Tài khoản của tôi",
+    "update_profile": "Cập nhật tài khoản",
+    "my_wallet": "Ví của tôi",
+    "tutorial": "Hướng dẫn",
+    "referrals": "Giới thiệu",
+    "help": "Trợ giúp",
+    "post": "Viết bài",
+    "admin": "Quản lý",
+    "buy": "Mya",
+    "logout": "Đăng xuất",
+    "settings": "Thiết lâập",
+    "more": "Hơn nữa"
+  },
+  "loader": {
+    "loading": "Đang tải"
+  },
+  "messages": {
+    "select_creator": "Chọn người tạo",
+    "custom_inbox_settings": "Cài đặt hộp thư đến tùy chỉnh",
+    "only_show": "Chỉ hiển thị",
+    "holders": "Người nắm giữ",
+    "holdings": "Nnắm giữ",
+    "followers": "Theo dõi",
+    "following": "Đang theo dõi",
+    "order_by": "Mua bở",
+    "most_recent": "Nhận nhiều nhất",
+    "most_deso": "Được bhiều deso nhất",
+    "most_followed": "Được theo dõi nhiều nhất",
+    "largest_holder": "Giữ lớn nhất",
+    "update": "Cập nhật",
+    "cancel": "Huỷ bỏ",
+
+    "loading": "đang tải",
+    "load_more": "Tải nhiều hơn",
+    "send": "Gửi",
+    "sending": "Đang gửi",
+    "new_message": "Tin nhắn mới"
+  },
+  "place_bid": {
+    "select_an_edition": "Select an edition",
+    "place_a_bid": "Place a bid",
+    "number": "Number",
+    "place_bid": "You are about to place a bid for an NFT auctioned by",
+    "highest_bid": "Highest Bid",
+    "min_bid_amount": "Min Bid Amount",
+    "creator_royalty": "Creator Royalty",
+    "coinholder_royalty": "Coin-holder Royalty",
+    "your_bid": "Your Bid",
+    "placing_bid": "Placing Bid",
+    "buy_deso": "Buy DESO",
+    "multiple_editions": "An NFT can have multiple editions, each with its own unique serial number.",
+    "no_serial_available": "There are no serial numbers available for you to bid on."
+  },
+  "right_bar": {
+    "creators": {
+      "sent": "Gửi",
+      "buy_deso": "Mua $DESO",
+      "deso_price": "Giá $DESO",
+      "your_deso": "$DESO của bạn",
+      "update_your_email": "Cập nhật địa chỉ email của bạn",
+      "top_daily_gainers": "Tăng giá hôm nay",
+      "top_daily_diamond_creators": "Nhận được nhiều kim cương hôm nay",
+      "hashtags": "Top Hashtags hôm nay",
+      "top_community_projects": "Top Community Projects",
+      "top_creators_alltime": "Người sáng tạo hàng đầu mọi lúc",
+      "powered_by": "Cung cấp bở",
+      "leaderboard": {
+        "reserved_profile": "This profile is reserved. Click to learn how to claim it.",
+        "verified_account": "This account is verified"
+      }
+    },
+    "signup": {
+      "welcome_to_deso": "Chào mừng BanBe.Online!",
+      "login": "Đăng nhập",
+      "signup": "Đăng ký"
+    }
+  },
+  "search_bar": {
+    "loading": "Đang tải...",
+    "reserved_profile": "This profile is reserved. Click to learn how to claim it.",
+    "search": "tìm kiếm...",
+    "search_on_cloutavista": "Tìm kiếm bằng Cloutavista"
+  },
+  "sell_nft": {
+    "back_to_nft": "Back to NFT",
+    "sell_an_nft": "Sell an NFT",
+    "about_to_sell": "You are about to sell your NFT to",
+    "and": "và",
+    "are_you_sure": "Bạn chắc chắn?",
+    "selling_price": "Selling Price",
+    "number": "Number",
+    "earnings": "Earnings",
+    "creator_royalty": "Creator Royalty",
+    "coinholder_royalty": "Coin-holder Royalty",
+    "select_one_bid": "You must select at least one bid in order to sell this NFT.",
+    "sellling_ntfs": "Selling NFTs",
+    "sell_nfts": "Sell NFTs"
+  },
+  "settings": {
+    "settings": "Thiết lập",
+    "email": "E-mail",
+    "enter_valid_email": "Please enter a valid email address.",
+    "enter_email": "Enter an email address.",
+    "update_email": "Cập nhật Email",
+    "deso_theme": "DeSo Theme",
+    "success": "Thành công!",
+    "updating": "Đang cập nhật..."
+  },
+  "simple_profile": {
+    "buy": "Buy"
+  },
+  "signup": {
+    "phone_verified": "Your phone number was verified. We sent you a small amount of DeSo, which is enough to post and follow people.",
+    "stay_in_the_loop": "Stay in the loop",
+    "step": "STEP",
+    "get_notified": "Get notified when someone buys your coin.",
+    "email": "E-mail",
+    "enter_valid_email": "Please enter a valid email address.",
+    "skip": "Skip",
+    "next": "Next",
+    "deso_is_a_cryptocurrency": "$DESO is a <b>cryptocurrency</b> like Bitcoin, only it powers the first <b>decentralized social network</b>.",
+    "use_deso": "You can use $DESO to trade creator coins, give Diamonds, buy NFTs, and much more.",
+    "buy_deso": "Mua $DESO",
+    "enter_emailaddress": "Enter an email address."
+  },
+  "top_bar": {
+    "mobile": {
+      "login": "Đăng nhập",
+      "signup": "Đăng ký"
+    }
+  },
+  "wallet_widget": {
+    "wallet_of": "My Creator Coin ",
+    "coins_in_circulation": "Coins in Circulation",
+    "total_usd_locked": "Total USD Locked",
+    "usd_market_cap": "USD Market Cap"
+  },
+  "notifications": {
+    "filter": {
+      "select_none": "Select None",
+      "select_all": "Select All",
+      "all": "All",
+      "notification_settings": "Notifications Settings",
+      "only_show": "Only show",
+      "likes": "Likes",
+      "diamonds": "Diamonds",
+      "creator_coin": "Creator Coin",
+      "follows": "Follows",
+      "mentions_replies_reposts": "Mentions / Replies / Reposts",
+      "nft": "NFT",
+      "view": "View",
+      "expanded": "Expanded",
+      "update": "Update",
+      "cancel": "Cancel"
+    },
+    "list": {
+      "notifications": "Notifications",
+      "no_notifications": "You don't have any notifications"
+    }
+  },
+  "wallet": {
+    "coins_purchased": "Coins Purchased",
+    "coins_received": "Coins Received",
+    "total_balance": "Total Balance",
+    "claim_your_free": "Claim your free",
+    "buy_deso": "Buy $DESO",
+    "send_deso": "Send $DESO",
+    "buy_creator_coins": "Buy Creator Coins",
+    "buy": "Buy",
+    "sell": "Sell",
+    "send": "Send",
+    "cash_out": "Cash Out",
+    "tutorial_header_text": {
+      "step": "Stap",
+      "skip": "Overslaan",
+      "sell_a_creator": "Sell a Creator",
+      "invest_in_yourself": "Invest in Yourself"
+    }
+  },
+  "verify_email": {
+    "failed_to_verify": "Failed to verify email: ",
+    "email_verified_successfully": "Email verified successfully"
+  },
+  "update_profile": {
+    "create_a_profile": "Create a Profile",
+    "create_a_profile_cost": "Creating a profile currently costs",
+    "this_helps_prevent_spam": "This helps prevent spam.",
+    "upload_image": "Upload Image",
+    "no_image_selected": "No image selected",
+    "username": "Username",
+    "please_set_username": "Please set a username",
+    "is_available": "is available",
+    "description": "Description",
+    "description_can_only_be": "Description can only be",
+    "characters": "characters",
+    "founder_reward_percentage": "Founder Reward Percentage",
+    "you_must_purchase_own_coin": "You must purchase your own coin before lowering your founder reward.",
+    "please_set_founder": "Please set a founder reward between 0-100.",
+    "email": "Email",
+    "please_enter_valid_email": "Please enter a valid email address.",
+    "theme": "Theme",
+    "language": "Language",
+    "show_price_in_feed": "Show prices in feed",
+    "update_profile": "Update Profile",
+    "enter_username": "Enter username",
+    "enter_emailaddress": "Enter an email address.",
+    "tutorial_instructions": "Select a profile picture, choose a username, and write your profile description if you're feeling poetic.<br /><br />When you're done, <b>click \"Update Profile\"</b> to continue.",
+    "avatar": "Avatar",
+    "get_starter_deso": "Get Starter $DESO",
+    "purchase": "Purchase",
+    "or": "Or",
+    "usd_of_deso": "USD of DESO",
+    "create_profile_message": {
+      "verify_phone_number": "You need to verify a phone number or purchase DeSo with Bitcoin in order to create a profile.  This helps prevent spam.",
+      "buy_deso": "You need to buy DeSo with Bitcoin in order to create a profile.  This helps prevent spam."
+    },
+    "create_profile": {
+      "create_your_profile": "Create Your Profile",
+      "step": "Step",
+      "select_a_profile_picture": "Select a profile picture, choose a username, and write your profile description if you're feeling poetic.<br /><br />When you're done, <b>click \"Update Profile\"</b> to continue."
+    }
+  },
+  "transfer_deso": {
+    "send_deso": "Send $DESO",
+    "enter_public_key": "Just enter a public key below and the protocol will handle the rest",
+    "public_key": "Public key or username to pay",
+    "amount_to_send": "Amount to Send",
+    "max": "Max",
+    "deso_network_fee": "DESO network fee",
+    "total": "Total",
+    "scan_qr_code": "Scan QR code to send",
+    "working": "Working...",
+    "cancel": "Cancel"
+  },
+  "trends": {
+    "trends": "Trends",
+    "powered_by": "Powered by"
+  },
+  "tab_selector": {
+    "new": "New",
+    "all_bids": "All Bids",
+    "my_bids": "My Bids",
+    "my_auction": "My Auction",
+    "owners": "Owners",
+    "thread": "Thread"
+  },
+  "Holders": "Holders",
+  "All": "All",
+  "Following": "Đang theo dõi",
+  "New": "Tin Mới",
+  "NFT Gallery": "NFT Gallery",
+  "post_thread": {
+    "see_more": "See more replies"
+  },
+  "generic_toast_error": "Something went wrong. Please try again."
+}
