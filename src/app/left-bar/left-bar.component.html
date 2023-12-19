@@ -59,7 +59,7 @@
         ></left-bar-button>
         <left-bar-button
           *ngIf="!globalVars.loggedInUser?.ProfileEntryResponse?.Username"
-          [link]="'/' + globalVars.RouteNames.UPDATE_PROFILE"
+          [link]="https://wallet.deso.com/profile"
           [buttonLabel]="t('left_bar.my_profile')"
           [iconName]="'user'"
         ></left-bar-button>
