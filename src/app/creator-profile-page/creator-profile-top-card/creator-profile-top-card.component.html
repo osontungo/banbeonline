@@ -105,8 +105,8 @@
       <div *ngIf="globalVars.loggedInUser" class="d-inline-block fs-15px creator-profile-top-card__edit-btn">
         <div *ngIf="profileBelongsToLoggedInUser(); else elseBlock">
           <!-- Show update profile link -->
-          <a (click)="openModal($event)">
-            <i-feather name="https://wallet.deso.com/profile"></i-feather>
+          <a (click)="https://wallet.deso.com/profile">
+            <i-feather name="settings"></i-feather>
             {{ "creator_profile_top_card.edit" | transloco }}
           </a>
         </div>
